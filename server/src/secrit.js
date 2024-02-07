@@ -1,4 +1,5 @@
-require("dotenv").config()
-const PORT =process.env.PORT || 3002
+require("dotenv").config();
+const PORT =process.env.PORT || 3002;
+const mongosseUrl = process.env.MONGODB_URL;
 
-module.exports = {PORT}
+module.exports = {PORT,mongosseUrl}
