@@ -9,10 +9,11 @@ const connectDB = async()=>{
         console.log('server is connect');
 
         mongoose.connection.on("error",(error)=>{
-            console.error('server is not connect',error)
+            console.error('server is not connect')
         })
     }catch(error){
-        console.error(`error hear : ${error}`);
+        // console.error(`error hear : ${error}`);
+        console.error(`error hear :`);
     }
 }
 
