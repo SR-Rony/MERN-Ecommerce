@@ -1,4 +1,4 @@
-const userModel = require("../models/user.model")
+const userModel = require("../models/userModel")
 const data = require("../data")
 
 const seedUser = async(req,res,next)=>{
