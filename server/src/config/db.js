@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const { mongosseUrl } = require("../src/secrit")
+const { mongosseUrl } = require("../secrit")
 
 
 const connectDB = async()=>{

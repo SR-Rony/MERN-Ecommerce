@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 const { Schema ,model} = mongoose;
 const bcrypt  = require("bcrypt");
-const { defaulUserImg } = require("../src/secrit");
+// const { defaulUserImg } = require("../src/secrit");
 
 const userSchema= new Schema({
     name: {
@@ -30,17 +30,18 @@ const userSchema= new Schema({
         set : (v)=>bcrypt.hashSync(v, bcrypt.genSaltSync(10))
     },
     address:{
+        type : String,
         required : [true, "user address is require"]
     },
     phone : {
         type : String,
         required :[true,"user phon is require"]
     },
-    images : {
-        default :
-        defaulUserImg
+    // images : {
+    //     default :true,
+    //     defaulUserImg : "public/images/user/defaul_user.png"
 
-    },
+    // },
     isAdmin : {
         type : Boolean,
         default : false
@@ -54,6 +55,6 @@ const userSchema= new Schema({
 
   },{timestamps:true});
 
-  const userModel = model("Users",userSchema)
+  const Users = model("Users",userSchema)
 
-  module.exports = userModel;
+  module.exports = Users;

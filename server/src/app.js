@@ -2,7 +2,7 @@ const express = require('express');
 const morgan = require('morgan')
 const createError = require('http-errors')
 const rateLimit = require('express-rate-limit')
-const route = require("../routers/route")
+const route = require("./routers/route")
 const app = express();
 
 const rateLimiter = rateLimit({

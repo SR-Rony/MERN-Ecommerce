@@ -1,7 +1,7 @@
 require("dotenv").config()
-const connectDB = require('../config/db');
+const connectDB = require('./config/db');
 const app = require('./app');
-const { serverPort } = require("./secrit");
+// const { serverPort } = require("./secrit");
 // const SERVER_PORT =process.env.SERVER_PORT || 3002;
 const SERVER_PORT =3000
 
