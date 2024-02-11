@@ -1,5 +1,6 @@
 const createError = require("http-errors")
 const User = require("../models/userModel");
+const { successRespons } = require("./respones.controller");
 const getUser = async (req,res,next)=>{
     try{
         const search = req.query.search || "";
@@ -32,14 +33,27 @@ const getUser = async (req,res,next)=>{
         }
 
         // all user respons and pages details
-        res.status(200).send({
-            message: "user route",
-            users : allUser,
-            pasination : {
-                totalPages: Math.ceil(count/limit),
-                currentPages : page,
-                prevPage : page-1 > 0 ? page-1:null,
-                nextPage : page + 1 <= Math.ceil(count/limit) ? page+1 : null
+        // res.status(200).send({
+        //     message: "user route",
+        //     users : allUser,
+        //     pasination : {
+        //         totalPages: Math.ceil(count/limit),
+        //         currentPages : page,
+        //         prevPage : page-1 > 0 ? page-1:null,
+        //         nextPage : page + 1 <= Math.ceil(count/limit) ? page+1 : null
+        //     }
+        // })
+        return successRespons(res,{
+            statusCode :200,
+            message : "all user return",
+            paylod :{
+                allUser,
+                pasination : {
+                    totalPages: Math.ceil(count/limit),
+                    currentPages : page,
+                    prevPage : page-1 > 0 ? page-1:null,
+                    nextPage : page + 1 <= Math.ceil(count/limit) ? page+1 : null
+                }
             }
         })
     }catch(error){

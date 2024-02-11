@@ -2,7 +2,8 @@ const express = require('express');
 const morgan = require('morgan')
 const createError = require('http-errors')
 const rateLimit = require('express-rate-limit')
-const route = require("./routers/route")
+const route = require("./routers/route");
+const { errorRespons } = require('./controller/respones.controller');
 const app = express();
 
 const rateLimiter = rateLimit({
@@ -34,9 +35,9 @@ app.use((req,res,next)=>{
 
 // server all error handle
 app.use((err,req,res,next)=>{
-    return res.status(err.status || 500).send({
-        success:false,
-        message:err.message
+    return errorRespons(res,{
+        message : err.message,
+        statusCode : err.status
     })
 })
 
