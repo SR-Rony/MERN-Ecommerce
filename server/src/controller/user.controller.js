@@ -1,15 +1,17 @@
 const createError = require("http-errors")
+const fs = require("fs")
 const User = require("../models/userModel");
 const { successRespons } = require("./respones.controller");
-const { findUser } = require("../services/findUser");
+const {findWithId } = require("../services/findItem");
 
-// get all users
+//======== get all users ========//
 const getUsers = async (req,res,next)=>{
     try{
+        // user request
         const search = req.query.search || "";
-        const limit = Number(req.query.limit) || 2;
+        const limit = Number(req.query.limit) || 5;
         const page = Number(req.query.page) || 1;
-
+        // serach regexp
         const searchRegexp = new RegExp('.*'+search+'.*',"i")
         // user filter
         const filter = {
@@ -34,6 +36,7 @@ const getUsers = async (req,res,next)=>{
         if(!allUser){
             throw createError(404,'No user found')
         }
+        // return success respons users
         return successRespons(res,{
             statusCode :200,
             message : "all user return",
@@ -52,18 +55,21 @@ const getUsers = async (req,res,next)=>{
     }
 }
 
-// single get user
+//======== single get user=======//
 const getSingleUser = async (req,res,next)=>{
     try{
         const id = req.params.id;
+        const option = {password:0}
         
-        let singleUser = await findUser(id)
+        // single user search by id
+        let singleUser = await findWithId(id,option)
 
+        // user success respons 
         return successRespons(res,{
             statusCode :200,
             message : "single user is return",
             paylod :{
-                user:singleUser
+                singleUser
             }
         })
     }catch(error){
@@ -71,6 +77,44 @@ const getSingleUser = async (req,res,next)=>{
     }
 }
 
+//====== delete user =======//
+const deleteUser = async(req,res,next)=>{
+    try{
+        const id = req.params.id;
+        // const option = {password:0};
+
+    //    const userDelete = await findWithId(id,option)
+    // ====user images delete=====//
+    //    const userImgPath = User.images;
+    //    fs.access(userImgPath,(error)=>{
+    //     if(error){
+    //         console.error('user images dos not exsit');
+    //     }else{
+    //         fs.unlink(userImgPath,(error)=>{
+    //             if(error){
+    //                 throw error
+    //             }
+    //             console.log('user images successfull delete');
+    //         })
+    //     }
+    //    })
+
+    //    delete user
+       await User.findByIdAndDelete({_id:id,isAdmin:false})
+
+    //======= user delete and success respons =======//
+    return successRespons(res,{
+        statusCode :200,
+        message : "user successfully delete",
+        paylod :{
+            userDelete
+        }
+    })
 
 
-module.exports = {getUsers,getSingleUser}
+    }catch(error){
+        next(error)
+    }
+}
+
+module.exports = {getUsers,getSingleUser,deleteUser}

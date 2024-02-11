@@ -11,7 +11,7 @@ const successRespons = (res,{statusCode=500,message= "success",paylod = {}})=>{
 const errorRespons = (res,{statusCode=500,message= "server error"})=>{
     return res.status(statusCode).json({
         success : false,
-        message:message
+        message
     })
 }
 

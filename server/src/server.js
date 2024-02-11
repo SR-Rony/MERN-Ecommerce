@@ -8,6 +8,6 @@ const SERVER_PORT =3000
 
 
 app.listen(SERVER_PORT  ,async()=>{
-    console.log(`my server is running at http://localhost:${SERVER_PORT  }`);
+    console.log(`my server is running at http://localhost:${SERVER_PORT}`);
     await connectDB()
 })
