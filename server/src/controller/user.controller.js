@@ -1,7 +1,7 @@
 const createError = require("http-errors")
 const User = require("../models/userModel");
-const mongoose = require ("mongoose")
 const { successRespons } = require("./respones.controller");
+const { findUser } = require("../services/findUser");
 
 // get all users
 const getUsers = async (req,res,next)=>{
@@ -56,26 +56,17 @@ const getUsers = async (req,res,next)=>{
 const getSingleUser = async (req,res,next)=>{
     try{
         const id = req.params.id;
-        const userOption = {password:0}
-
-        // user pagesnation
-        const singleUser = await User.findById(id,userOption)
-        if(!singleUser){
-            throw createError(404,"user dos not exist with by id")
-        }
+        
+        let singleUser = await findUser(id)
 
         return successRespons(res,{
             statusCode :200,
             message : "single user is return",
             paylod :{
-                singleUser
+                user:singleUser
             }
         })
     }catch(error){
-        if(error instanceof mongoose.Error){
-            next(createError(404,"Invalid user id"))
-            return
-        }
         next(error)
     }
 }
