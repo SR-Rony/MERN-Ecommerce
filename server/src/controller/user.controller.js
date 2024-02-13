@@ -1,8 +1,8 @@
 const createError = require("http-errors")
-const fs = require("fs")
 const User = require("../models/userModel");
 const { successRespons } = require("./respones.controller");
 const {findWithId } = require("../services/findItem");
+const deleteImg = require("../helper/deleteImages");
 
 //======== get all users ========//
 const getUsers = async (req,res,next)=>{
@@ -62,7 +62,7 @@ const getSingleUser = async (req,res,next)=>{
         const option = {password:0}
         
         // single user search by id
-        let singleUser = await findWithId(id,option)
+        let singleUser = await findWithId(User,id,option)
 
         // user success respons 
         return successRespons(res,{
@@ -80,32 +80,19 @@ const getSingleUser = async (req,res,next)=>{
 //====== delete user =======//
 const deleteUser = async(req,res,next)=>{
     try{
-        const id = req.params.id;
-        // const option = {password:0};
-
-    //    const userDelete = await findWithId(id,option)
-    // ====user images delete=====//
-    //    const userImgPath = User.images;
-    //    fs.access(userImgPath,(error)=>{
-    //     if(error){
-    //         console.error('user images dos not exsit');
-    //     }else{
-    //         fs.unlink(userImgPath,(error)=>{
-    //             if(error){
-    //                 throw error
-    //             }
-    //             console.log('user images successfull delete');
-    //         })
-    //     }
-    //    })
+    const id = req.params.id;
+    // user images delete
+    const userImgPath = User.images;
+    // delete helper fun()
+    await deleteImg(userImgPath)
 
     //    delete user
        await User.findByIdAndDelete({_id:id,isAdmin:false})
 
-    //======= user delete and success respons =======//
+    //======= user delete and success respons fun () =======//
     return successRespons(res,{
         statusCode :200,
-        message : "user successfully delete",
+        message : " delete",
         paylod :{
             userDelete
         }

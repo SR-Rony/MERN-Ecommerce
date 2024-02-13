@@ -1,18 +1,17 @@
 const mongoose = require("mongoose")
 const createError = require("http-errors")
-const Users = require("../models/userModel")
 
-const findWithId = async (id,option={})=>{
+const findWithId = async (Model,id,option={})=>{
     try{
-        const item = await Users.findById(id,option)
+        const item = await Model.findById(id,option)
         
         if(!item){
-            throw createError(404,"item dos not exist with by id")
+            throw createError(404,`${Model.modelName} dos not exist with by id`)
         }
         return item
     }catch(error){
         if(error instanceof mongoose.Error){
-            throw createError(404,"Invalid item id")
+            throw createError(404,`Invalid ${Model.modelName} id`)
         }
         return error
     }
