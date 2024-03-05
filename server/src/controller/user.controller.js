@@ -4,6 +4,37 @@ const { successRespons } = require("./respones.controller");
 const {findWithId } = require("../services/findItem");
 const deleteImg = require("../helper/deleteImages");
 
+
+//============== user register ============//
+const register = async (req,res,next)=>{
+    try{
+        const {name,email,password,address,phone}=req.body;
+
+        const userExists = User.exists({email:email})
+        if(userExists){
+            throw createError(409,"user with this email already exists.please login")
+        }
+        const newUser ={
+            name,
+            email,
+            password,
+            address,
+            phone
+        }
+        return successRespons(res,{
+            statusCode:200,
+            message:'new user created successfull',
+            paylod :{
+                newUser
+            }
+        })
+
+    }catch(error){
+        next(error)
+    }
+}
+
+
 //======== get all users ========//
 const getUsers = async (req,res,next)=>{
     try{
@@ -104,4 +135,4 @@ const deleteUser = async(req,res,next)=>{
     }
 }
 
-module.exports = {getUsers,getSingleUser,deleteUser}
+module.exports = {register,getUsers,getSingleUser,deleteUser}
