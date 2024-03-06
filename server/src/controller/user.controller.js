@@ -3,6 +3,8 @@ const User = require("../models/userModel");
 const { successRespons } = require("./respones.controller");
 const {findWithId } = require("../services/findItem");
 const deleteImg = require("../helper/deleteImages");
+const { createJsonWebToken } = require("../helper/jsonwebtoken");
+const { jwtActivationKey } = require("../secrit");
 
 
 //============== user register ============//
@@ -14,18 +16,20 @@ const register = async (req,res,next)=>{
         if(userExists){
             throw createError(409,"user with this email already exists.please login")
         }
-        const newUser ={
-            name,
-            email,
-            password,
-            address,
-            phone
-        }
+
+       const token = createJsonWebToken({name,email,password,address,phone},jwtActivationKey,"5m")
+        // const newUser ={
+        //     name,
+        //     email,
+        //     password,
+        //     address,
+        //     phone
+        // }
         return successRespons(res,{
             statusCode:200,
             message:'new user created successfull',
             paylod :{
-                newUser
+                token
             }
         })
 
