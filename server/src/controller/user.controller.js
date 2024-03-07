@@ -4,7 +4,8 @@ const { successRespons } = require("./respones.controller");
 const {findWithId } = require("../services/findItem");
 const deleteImg = require("../helper/deleteImages");
 const { createJsonWebToken } = require("../helper/jsonwebtoken");
-const { jwtActivationKey } = require("../secrit");
+const { jwtActivationKey, clientUrl } = require("../secrit");
+const emailNodmailer = require("../helper/email");
 
 
 //============== user register ============//
@@ -13,23 +14,34 @@ const register = async (req,res,next)=>{
         const {name,email,password,address,phone}=req.body;
 
         const userExists = User.exists({email:email})
-        if(userExists){
-            throw createError(409,"user with this email already exists.please login")
-        }
-
-       const token = createJsonWebToken({name,email,password,address,phone},jwtActivationKey,"5m")
-        // const newUser ={
-        //     name,
-        //     email,
-        //     password,
-        //     address,
-        //     phone
+        // if(userExists){
+        //     throw createError(409,"user with this email already exists.please login")
         // }
+        // create jsonwebtoken 
+       const token = createJsonWebToken({name,email,password,address,phone},jwtActivationKey,"10m")
+
+        // prepare email
+        const emailData = {
+            email:email,
+            subject:"action activation email",
+            html:`
+                <h1>Hello ${name}</h1>
+                <p>please click hear to <a href="${clientUrl}/api/v1/users/register${token}" target="_blank">activet your email</a></p>
+            `
+        }
+        // send email with nodemailer
+        try{
+           await emailNodmailer(emailData)
+        }catch(emailError){
+            next(createError(500,"fail to verification email "))
+            return
+        }
+        //    success respons function
         return successRespons(res,{
             statusCode:200,
-            message:'new user created successfull',
+            message:`please go to your ${email} for compleating your registaion prosses`,
             paylod :{
-                token
+                token:token
             }
         })
 
