@@ -15,10 +15,10 @@ const register = async (req,res,next)=>{
     try{
         const {name,email,password,address,phone}=req.body;
 
-        const userExists = User.exists({email:email})
-        // if(userExists){
-        //     throw createError(409,"user with this email already exists.please login")
-        // }
+        const userExists = await User.exists({email:email})
+        if(userExists){
+            throw createError(409,"user with this email already exists.please login")
+        }
         // create jsonwebtoken 
        const token = createJsonWebToken({name,email,password,address,phone},jwtActivationKey,"10m")
 
@@ -63,12 +63,16 @@ const userVerify = async (req,res,next)=>{
 
         try{
             // token verify data
-            const jwtData=  jwt.verify(token,jwtActivationKey)
-            if(!jwtData){
+            const decoded = jwt.verify(token,jwtActivationKey)
+            if(!decoded){
                 throw createError(401,"user is not a verify")
             }
+            const userExists = await User.exists({email:decoded.email})
+            if(userExists){
+                throw createError(409,"user with this email already exists.please login")
+            }
             // new user is create
-            await User.create(jwtData)
+            await User.create(decoded)
             
             //    success respons function
             return successRespons(res,{
