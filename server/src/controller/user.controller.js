@@ -1,5 +1,7 @@
 const createError = require("http-errors")
 const User = require("../models/userModel");
+const jwt = require("jsonwebtoken")
+
 const { successRespons } = require("./respones.controller");
 const {findWithId } = require("../services/findItem");
 const deleteImg = require("../helper/deleteImages");
@@ -44,6 +46,44 @@ const register = async (req,res,next)=>{
                 token:token
             }
         })
+
+    }catch(error){
+        next(error)
+    }
+}
+
+//============== user verify ============//
+const userVerify = async (req,res,next)=>{
+    try{
+
+        const token = req.body.token;
+        if(!token){
+            throw createError(404,"token is not found")
+        }
+
+        try{
+            // token verify data
+            const jwtData=  jwt.verify(token,jwtActivationKey)
+            if(!jwtData){
+                throw createError(401,"user is not a verify")
+            }
+            // new user is create
+            await User.create(jwtData)
+            
+            //    success respons function
+            return successRespons(res,{
+                statusCode:200,
+                message:`user is a register successfull`,
+            })
+        }catch(error){
+            if(error.name=="tokenExpiredError"){
+                throw createError(404,"token has expired")
+            }else if(error.name=="jsonWebTokenError"){
+                throw createError(401,"invalid token")
+            }else{
+                throw error
+            }
+        }
 
     }catch(error){
         next(error)
@@ -151,4 +191,4 @@ const deleteUser = async(req,res,next)=>{
     }
 }
 
-module.exports = {register,getUsers,getSingleUser,deleteUser}
+module.exports = {register,getUsers,getSingleUser,deleteUser,userVerify}
