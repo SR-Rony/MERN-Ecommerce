@@ -13,14 +13,14 @@ const emailNodmailer = require("../helper/email");
 //============== user register ============//
 const register = async (req,res,next)=>{
     try{
-        const {name,email,password,address,phone}=req.body;
+        const {name,email,password,address,phone,image}=req.body;
 
         const userExists = await User.exists({email:email})
         if(userExists){
             throw createError(409,"user with this email already exists.please login")
         }
         // create jsonwebtoken 
-       const token = createJsonWebToken({name,email,password,address,phone},jwtActivationKey,"10m")
+       const token = createJsonWebToken({name,email,password,address,phone,image},jwtActivationKey,"10m")
 
         // prepare email
         const emailData = {
@@ -33,7 +33,7 @@ const register = async (req,res,next)=>{
         }
         // send email with nodemailer
         try{
-           await emailNodmailer(emailData)
+        //    await emailNodmailer(emailData)
         }catch(emailError){
             next(createError(500,"fail to verification email "))
             return
@@ -55,8 +55,9 @@ const register = async (req,res,next)=>{
 //============== user verify ============//
 const userVerify = async (req,res,next)=>{
     try{
-
+        // user token
         const token = req.body.token;
+        // token error throw
         if(!token){
             throw createError(404,"token is not found")
         }
@@ -67,6 +68,7 @@ const userVerify = async (req,res,next)=>{
             if(!decoded){
                 throw createError(401,"user is not a verify")
             }
+            // user exists error
             const userExists = await User.exists({email:decoded.email})
             if(userExists){
                 throw createError(409,"user with this email already exists.please login")
@@ -74,11 +76,12 @@ const userVerify = async (req,res,next)=>{
             // new user is create
             await User.create(decoded)
             
-            //    success respons function
+            //success respons function
             return successRespons(res,{
                 statusCode:200,
                 message:`user is a register successfull`,
             })
+            // all error
         }catch(error){
             if(error.name=="tokenExpiredError"){
                 throw createError(404,"token has expired")

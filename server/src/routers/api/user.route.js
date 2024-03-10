@@ -1,8 +1,9 @@
 const route = require("express").Router()
 const { getUsers, getSingleUser, deleteUser, register, userVerify } = require("../../controller/user.controller")
+const upload = require("../../middlewares/uplodFile")
 
 // user register route
-route.post("/register",register)
+route.post("/register",upload.single("image"), register)
 // user verify route
 route.post("/verify",userVerify)
 // all get user

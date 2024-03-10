@@ -9,7 +9,8 @@ const smtpPassword= process.env.SMTP_PASSWORD
 // const defaulUserImg = process.env.DEFAULT_USER_IMG || "public/images/user/defaul_user.png"
 const defaulUserImg ="public/images/user/defaul_user.png"
 const clientUrl =process.env.CLIENT_URL
+const uplodDir=process.env.UPLOD_FILE||"public/images/user"
 
 
 
-module.exports = {mongosseUrl,serverPort,defaulUserImg,jwtActivationKey,smtpUserName,smtpPassword,clientUrl,dbName,dbPassword}
+module.exports = {mongosseUrl,serverPort,defaulUserImg,jwtActivationKey,smtpUserName,smtpPassword,clientUrl,dbName,dbPassword,uplodDir}

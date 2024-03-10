@@ -37,11 +37,10 @@ const userSchema= new Schema({
         type : String,
         required :[true,"user phon is require"]
     },
-    // images : {
-    //     default :true,
-    //     defaulUserImg : "public/images/user/defaul_user.png"
+    images : {
+        type:String
 
-    // },
+    },
     isAdmin : {
         type : Boolean,
         default : false
