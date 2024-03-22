@@ -4,31 +4,26 @@ import { Button, Icon, Input, Label, Spinner } from 'keep-react'
 import Heading from "@/components/heading/Heading";
 import { useState } from 'react';
 import Paragraph from '@/components/paragraph/Paragraph';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 
 
 
-export default function Home() {
-  const [user,setUser]=useState({name:"",email:"",password:""});
-  let {name,email,password}=user
+export default function Login () {
+  const [user,setUser]=useState({email:"",password:""});
+  let {email,password}=user
+
   // input error
-  const [nameError,setNameError]=useState("")
   const [emailError,setEmailError]=useState("")
   const [passwordError,setPasswordError]=useState("")
-  // lodding state
-  const [lodding,setLodding]=useState(false)
+ // lodding state
+ const [lodding,setLodding]=useState(false)
 
-  const router = useRouter()
 
 
   // hanle input change
   const handleChange =(e)=>{
     setUser({...user,[e.target.name]:e.target.value})
-    if(e.target.name=="name"){
-      setNameError("")
-    }
     if(e.target.name=="email"){
       setEmailError("")
     }
@@ -41,10 +36,6 @@ export default function Home() {
   // form is submit
   const handleSubmit =(e)=>{
     setLodding(true)
-    if(!name){
-      setNameError("please inter your name")
-      setLodding(false)
-    }
     if(!email){
       setEmailError("please inter your email")
       setLodding(false)
@@ -53,10 +44,9 @@ export default function Home() {
       setPasswordError("please inter your password")
       setLodding(false)
     }
-    if(name && email && password){
-      setLodding(false)
+    if(email && password){
+        setLodding(false)
       console.log(user);
-      router.push('/login')
     }
     e.preventDefault()
   }
@@ -65,22 +55,12 @@ export default function Home() {
   return (
     <main className="flex h-screen w-full justify-center items-center bg-black">
       <div>
-        <Heading className="text-white mb-5 text-center" tag="h1" text="welcome to Regitration"/>
+        <Heading className="text-white mb-5 text-center" tag="h1" text="welcome to Login"/>
         <form onSubmit={handleSubmit} className="mx-auto max-w-md space-y-2 rounded-lg border p-8 shadow-md bg-white">
-          <fieldset className="space-y-1">
-            <Label htmlFor="name">Full Name</Label>
-            <div className="relative">
-              <Input onChange={handleChange} name='name' placeholder="full name" type='text' className="ps-11" />
-              <Icon>
-                <User size={19} color="#AFBACA" />
-              </Icon>
-            </div>
-            {nameError && <Paragraph className="text-red-500" text={nameError}/>}
-          </fieldset>
           <fieldset className="space-y-1">
             <Label htmlFor="name">Email</Label>
             <div className="relative">
-              <Input onChange={handleChange} name='email'  placeholder="email" type='email' className="ps-11" />
+              <Input onChange={handleChange} name='email'  placeholder="email" value={email} type='email' className="ps-11" />
               <Icon>
                 <Envelope size={19} color="#AFBACA" />
               </Icon>
@@ -90,7 +70,7 @@ export default function Home() {
           <fieldset className="space-y-1">
             <Label htmlFor="password">Password</Label>
             <div className="relative">
-              <Input onChange={handleChange} name='password'  id="password" placeholder="Enter password" type="password" className="ps-11" />
+              <Input onChange={handleChange} name='password'  id="password" placeholder="Enter password" value={password} type="password" className="ps-11" />
               <Icon>
                 <Lock size={19} color="#AFBACA" />
               </Icon>
@@ -109,7 +89,7 @@ export default function Home() {
             </Button>
             }
         </form>
-        <p className='text-white text-center mt-4'>Don't have an acount ? <Link className='text-slate-600' href="/login">Login</Link></p>
+        <p className='text-white text-center mt-4'>Don't have an acount ? <Link className='text-slate-500' href="/">SingUp</Link></p>
       </div>
     </main>
   );
