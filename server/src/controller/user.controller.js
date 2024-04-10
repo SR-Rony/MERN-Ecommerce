@@ -33,7 +33,7 @@ const register = async (req,res,next)=>{
         }
         // send email with nodemailer
         try{
-        //    await emailNodmailer(emailData)
+           await emailNodmailer(emailData)
         }catch(emailError){
             next(createError(500,"fail to verification email "))
             return

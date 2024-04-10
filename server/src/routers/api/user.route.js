@@ -1,9 +1,11 @@
 const route = require("express").Router()
 const { getUsers, getSingleUser, deleteUser, register, userVerify } = require("../../controller/user.controller")
 const upload = require("../../middlewares/uplodFile")
+const runValidation = require("../../middlewares/validators")
+const { userRegistationValidate } = require("../../middlewares/validators/auth")
 
 // user register route
-route.post("/register",upload.single("image"), register)
+route.post("/register",upload.single("image"),userRegistationValidate,runValidation , register)
 // user verify route
 route.post("/verify",userVerify)
 // all get user
