@@ -8,12 +8,22 @@ const deleteImg = require("../helper/deleteImages");
 const { createJsonWebToken } = require("../helper/jsonwebtoken");
 const { jwtActivationKey, clientUrl } = require("../secrit");
 const emailNodmailer = require("../helper/email");
+const runValidation = require("../middlewares/validators");
 
 
 //============== user register ============//
 const register = async (req,res,next)=>{
     try{
         const {name,email,password,address,phone,image}=req.body;
+
+        // const imageSize = req.file
+
+        // if(!imageSize){
+        //     throw createError(409,"images file is require")
+        // }
+        // if(imageSize > 1024 * 1024 * 2){
+        //     throw createError(409,"file to large. It must be less than  2MB")
+        // }
 
         const userExists = await User.exists({email:email})
         if(userExists){
@@ -171,6 +181,50 @@ const getSingleUser = async (req,res,next)=>{
     }
 }
 
+//====== update user =======//
+const updateUser = async(req,res,next)=>{
+    try{
+        // const {name,email,password,address,phone,image}=req.body;
+    const updateId = req.params.id;
+    let updateOptions = {new:true,runValidat:true}
+    let updates ={} 
+
+    for(let key in req.body){
+        if(["name","password","address","phone"].includes(key)){
+            updates[key]=req.body[key]
+        }
+       else if(["email",].includes(key)){
+        throw createError(400,"Email can not be updatead")
+        }
+    }
+    // const image = req.file
+    // if(image){
+    //     if(image > 1024 * 1024 * 2){
+    //         throw createError(409,"file to large. It must be less than  2MB")
+    //     }
+    //     updates.image=image
+    // }
+
+    const userUpdate = await User.findByIdAndUpdate(updateId,updates,updateOptions)
+    .select("-password")
+
+    if(!userUpdate){
+        throw createError(404,"User not exsist")
+    }
+
+    //======= user delete and success respons fun () =======//
+    return successRespons(res,{
+        statusCode :200,
+        message : " update",
+        paylod :userUpdate
+    })
+
+
+    }catch(error){
+        next(error)
+    }
+}
+
 //====== delete user =======//
 const deleteUser = async(req,res,next)=>{
     try{
@@ -197,5 +251,4 @@ const deleteUser = async(req,res,next)=>{
         next(error)
     }
 }
-
-module.exports = {register,getUsers,getSingleUser,deleteUser,userVerify}
+module.exports = {register,getUsers,getSingleUser,deleteUser,userVerify,updateUser}

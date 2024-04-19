@@ -4,8 +4,8 @@ const { errorRespons } = require("../../controller/respones.controller")
 const runValidation =(req,res,next)=>{
     try{
         const error = validationResult(req)
+        console.log(error);
         if(!error.isEmpty()){
-            console.log(error.array()[0].msg);
             return errorRespons(res,{
                 statusCode:422,
                 message:error.array()[0].msg

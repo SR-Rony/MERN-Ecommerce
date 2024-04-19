@@ -1,5 +1,5 @@
 const route = require("express").Router()
-const { getUsers, getSingleUser, deleteUser, register, userVerify } = require("../../controller/user.controller")
+const { getUsers, getSingleUser, deleteUser, register, userVerify, updateUser } = require("../../controller/user.controller")
 const upload = require("../../middlewares/uplodFile")
 const runValidation = require("../../middlewares/validators")
 const { userRegistationValidate } = require("../../middlewares/validators/auth")
@@ -14,5 +14,7 @@ route.get("/",getUsers)
 route.get("/:id",getSingleUser)
 // delete user
 route.delete("/:id",deleteUser)
+// update user
+route.put("/update/:id",upload.single("image"),updateUser)
 
 module.exports = route
