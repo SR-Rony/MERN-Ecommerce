@@ -16,7 +16,7 @@ const register = async (req,res,next)=>{
     try{
         const {name,email,password,address,phone,image}=req.body;
 
-        // const imageSize = req.file
+        // const imageSize = req.file.path;
 
         // if(!imageSize){
         //     throw createError(409,"images file is require")

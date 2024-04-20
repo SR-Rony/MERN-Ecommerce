@@ -8,17 +8,17 @@ const storage = multer.diskStorage({
       cb(null, uplodDir)
     },
     filename: function (req, file, cb) {
-        const extname=path.extname(file.originalname)
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-      cb(null, uniqueSuffix+extname)
+        // const extname=path.extname(file.originalname)
+      // const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+      cb(null, Date.now() + '-' + file.originalname)
     }
   })
 
   const fileFileter =(req,file,cb)=>{
     const extname =  path.extname(file.originalname);
-    if(!fileTypes.includes(extname.substring(1))){
-    let error = createError(400,"file type is not allowed")
-      return cb(error)
+    if(!fileTypes.includes(file.mimetype)){
+    // let error = createError(400,"file type is not allowed")
+      return cb(new Error("file typr is not allowed"),false)
     }
     cb(null,true)
   }
@@ -26,6 +26,6 @@ const storage = multer.diskStorage({
   const upload = multer({ 
     storage: storage ,
     limits:{fileSize:fileSize},
-    fileFileter
+    fileFileter:fileFileter,
   })
   module.exports = upload

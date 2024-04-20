@@ -37,8 +37,8 @@ const userSchema= new Schema({
         type : String,
         required :[true,"user phon is require"]
     },
-    images : {
-        type:String
+    image : {
+        type:String,
 
     },
     isAdmin : {
