@@ -14,23 +14,22 @@ const runValidation = require("../middlewares/validators");
 //============== user register ============//
 const register = async (req,res,next)=>{
     try{
-        const {name,email,password,address,phone,image}=req.body;
+        const {name,email,password,address,phone,}=req.body;
 
-        const imageSize = req.file.path;
-
-        if(!imageSize){
+        const image = req.file?.path; //images path
+        if(!image){
             throw createError(409,"images file is require")
         }
-        if(imageSize > 1024 * 1024 * 2){
+        if(image > 1024 * 1024 * 2){
             throw createError(409,"file to large. It must be less than  2MB")
         }
-
+        // email exisits chack
         const userExists = await User.exists({email:email})
         if(userExists){
             throw createError(409,"user with this email already exists.please login")
         }
         // create jsonwebtoken 
-       const token = createJsonWebToken({name,email,password,address,phone,image},jwtActivationKey,"10m")
+       const token = createJsonWebToken({name,email,password,address,phone,image:image},jwtActivationKey,"10m")
 
         // prepare email
         const emailData = {
@@ -41,9 +40,9 @@ const register = async (req,res,next)=>{
                 <p>please click hear to <a href="${clientUrl}/api/v1/users/register${token}" target="_blank">activet your email</a></p>
             `
         }
-        // send email with nodemailer
         try{
-        //    await emailNodmailer(emailData)
+            // send email with nodemailer
+           await emailNodmailer(emailData)
         }catch(emailError){
             next(createError(500,"fail to verification email "))
             return
@@ -106,7 +105,6 @@ const userVerify = async (req,res,next)=>{
         next(error)
     }
 }
-
 
 //======== get all users ========//
 const getUsers = async (req,res,next)=>{
@@ -184,27 +182,35 @@ const getSingleUser = async (req,res,next)=>{
 //====== update user =======//
 const updateUser = async(req,res,next)=>{
     try{
-        // const {name,email,password,address,phone,image}=req.body;
     const updateId = req.params.id;
-    let updateOptions = {new:true,runValidat:true}
-    let updates ={} 
+    const option = {password:0};
+    const user = await findWithId(User,updateId,option)
 
+    let updateOptions = {new:true,runValidation:true,context:"query"}
+
+    let updates ={} //update object
+
+    // input req.body all key
     for(let key in req.body){
-        if(["name","password","address","phone"].includes(key)){
+        console.log(key);
+        if(["name","password","address","phone",].includes(key)){
             updates[key]=req.body[key]
         }
-       else if(["email",].includes(key)){
+       else if(["email"].includes(key)){
         throw createError(400,"Email can not be updatead")
         }
     }
-    // const image = req.file
-    // if(image){
-    //     if(image > 1024 * 1024 * 2){
-    //         throw createError(409,"file to large. It must be less than  2MB")
-    //     }
-    //     updates.image=image
-    // }
 
+    const updateImage = req.file?.path;// images path
+    if(updateImage){
+        if(updateImage.size > 1024 * 1024 * 2){
+            throw createError(409,"file to large. It must be less than  2MB")
+        }
+        
+        updates.image=updateImage //images update
+        user.image!=="default.png" && deleteImg(user.image) //images delete
+    }
+    // user update
     const userUpdate = await User.findByIdAndUpdate(updateId,updates,updateOptions)
     .select("-password")
 
