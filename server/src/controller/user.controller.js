@@ -16,14 +16,14 @@ const register = async (req,res,next)=>{
     try{
         const {name,email,password,address,phone,image}=req.body;
 
-        // const imageSize = req.file.path;
+        const imageSize = req.file.path;
 
-        // if(!imageSize){
-        //     throw createError(409,"images file is require")
-        // }
-        // if(imageSize > 1024 * 1024 * 2){
-        //     throw createError(409,"file to large. It must be less than  2MB")
-        // }
+        if(!imageSize){
+            throw createError(409,"images file is require")
+        }
+        if(imageSize > 1024 * 1024 * 2){
+            throw createError(409,"file to large. It must be less than  2MB")
+        }
 
         const userExists = await User.exists({email:email})
         if(userExists){
@@ -43,7 +43,7 @@ const register = async (req,res,next)=>{
         }
         // send email with nodemailer
         try{
-           await emailNodmailer(emailData)
+        //    await emailNodmailer(emailData)
         }catch(emailError){
             next(createError(500,"fail to verification email "))
             return

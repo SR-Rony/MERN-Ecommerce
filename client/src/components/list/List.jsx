@@ -1,9 +1,0 @@
-import React from 'react'
-
-const List = ({children}) => {
-  return (
-    <li>{children}</li>
-  )
-}
-
-export default List
