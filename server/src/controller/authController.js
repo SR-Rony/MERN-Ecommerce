@@ -6,6 +6,7 @@ const bcrypt = require("bcryptjs");
 const { createJsonWebToken } = require("../helper/jsonwebtoken");
 const { jwtAccessKey } = require("../secrit");
 
+//============ user login ============ 
 const login = async (req,res,next)=>{
     try{
         // email and password req.body
@@ -26,9 +27,9 @@ const login = async (req,res,next)=>{
             throw createError(403,"You are banned . please contact authority")
         }
         // create  token
-        const accessToken = createJsonWebToken({email},jwtAccessKey,"10m")
+        const accessToken = createJsonWebToken({_id:user._id},jwtAccessKey,"15m")
 
-        res.cookie("access_token",accessToken,{
+        res.cookie("accessToken",accessToken,{
             mixAge : 15 * 60 * 1000, //15 minutes
             httpOnly : true,
             secure : true,
@@ -46,5 +47,18 @@ const login = async (req,res,next)=>{
         next(error)
     }
 }
+//============ user logout ============ 
+const logout = async (req,res,next)=>{
+    try{
+        res.clearCookie("accessToken")
+        // user successfull response
+        return successRespons(res,{
+            statusCode:200,
+            message:"User logout successfully",
+        })
+    }catch(error){
+        next(error)
+    }
+}
 
-module.exports = {login}
+module.exports = {login,logout}
