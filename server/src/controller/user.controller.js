@@ -231,16 +231,41 @@ const updateUser = async(req,res,next)=>{
         next(error)
     }
 }
+//====== ban user =======//
+const bannedUser = async(req,res,next)=>{
+    try{
+    const updateId = req.params.id;
+    const updates = {isBanned:true};
+    await findWithId(User,updateId)
+
+    let updateOptions = {new:true,runValidation:true,context:"query"}
+    // user update
+    const userUpdate = await User.findByIdAndUpdate(updateId,updates,updateOptions)
+    .select("-password")
+
+    if(!userUpdate){
+        throw createError(404,"User not banned successfully")
+    }
+
+    //======= user delete and success respons fun () =======//
+    return successRespons(res,{
+        statusCode :200,
+        message : " User bann successfully",
+        paylod :userUpdate
+    })
+
+
+    }catch(error){
+        next(error)
+    }
+}
 
 //====== delete user =======//
 const deleteUser = async(req,res,next)=>{
     try{
     const id = req.params.id;
-    // user images delete
-    const userImgPath = User.images;
-    // delete helper fun()
-    await deleteImg(userImgPath)
-
+    const option = {password:0}
+    const user = await findWithId(User,id,option)
     //    delete user
        await User.findByIdAndDelete({_id:id,isAdmin:false})
 
@@ -249,7 +274,7 @@ const deleteUser = async(req,res,next)=>{
         statusCode :200,
         message : " delete",
         paylod :{
-            userDelete
+            user:user
         }
     })
 
@@ -258,4 +283,4 @@ const deleteUser = async(req,res,next)=>{
         next(error)
     }
 }
-module.exports = {register,getUsers,getSingleUser,deleteUser,userVerify,updateUser}
+module.exports = {register,getUsers,getSingleUser,deleteUser,userVerify,updateUser,bannedUser}
