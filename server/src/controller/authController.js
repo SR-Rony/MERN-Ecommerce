@@ -27,7 +27,7 @@ const login = async (req,res,next)=>{
             throw createError(403,"You are banned . please contact authority")
         }
         // create  token
-        const accessToken = createJsonWebToken({_id:user._id},jwtAccessKey,"15m")
+        const accessToken = createJsonWebToken({user},jwtAccessKey,"15m")
 
         res.cookie("accessToken",accessToken,{
             mixAge : 15 * 60 * 1000, //15 minutes

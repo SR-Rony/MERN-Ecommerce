@@ -160,6 +160,7 @@ const getUsers = async (req,res,next)=>{
 //======== single get user=======//
 const getSingleUser = async (req,res,next)=>{
     try{
+        console.log("single suer",req.user);
         const id = req.params.id;
         const option = {password:0}
         

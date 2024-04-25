@@ -3,14 +3,14 @@ const { getUsers, getSingleUser, deleteUser, register, userVerify, updateUser } 
 const upload = require("../../middlewares/uplodFile")
 const runValidation = require("../../middlewares/validators")
 const { userRegistationValidate } = require("../../middlewares/validators/auth")
-const {isLoggedIn} = require("../../middlewares/auth")
+const {isLoggedIn, isLoggedOut, isAdmin} = require("../../middlewares/auth")
 
 // user register route
-route.post("/register",upload.single("image"),userRegistationValidate,runValidation , register)
+route.post("/register",isLoggedOut,upload.single("image"),userRegistationValidate,runValidation , register)
 // user verify route
-route.post("/verify",userVerify)
+route.post("/verify",isLoggedOut,userVerify)
 // all get user
-route.get("/",isLoggedIn,getUsers)
+route.get("/",isLoggedIn,isAdmin,getUsers)
 // single get user
 route.get("/:id",isLoggedIn,getSingleUser)
 // delete user
