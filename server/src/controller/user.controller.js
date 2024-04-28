@@ -9,6 +9,7 @@ const { createJsonWebToken } = require("../helper/jsonwebtoken");
 const { jwtActivationKey, clientUrl } = require("../secrit");
 const emailNodmailer = require("../helper/email");
 const runValidation = require("../middlewares/validators");
+const { handleUserAction } = require("../services/userServices");
 
 
 //============== user register ============//
@@ -232,26 +233,17 @@ const updateUser = async(req,res,next)=>{
     }
 }
 //====== ban user =======//
-const bannedUser = async(req,res,next)=>{
+const handleManageUser = async(req,res,next)=>{
     try{
-    const updateId = req.params.id;
-    const updates = {isBanned:true};
-    await findWithId(User,updateId)
-
-    let updateOptions = {new:true,runValidation:true,context:"query"}
-    // user update
-    const userUpdate = await User.findByIdAndUpdate(updateId,updates,updateOptions)
-    .select("-password")
-
-    if(!userUpdate){
-        throw createError(404,"User not banned successfully")
-    }
+    const userId = req.params.id;
+    const action = req.body.action
+    console.log(action);
+   let successMessages = await handleUserAction(userId,action)
 
     //======= user delete and success respons fun () =======//
     return successRespons(res,{
         statusCode :200,
-        message : " User bann successfully",
-        paylod :userUpdate
+        message : successMessages
     })
 
 
@@ -283,4 +275,4 @@ const deleteUser = async(req,res,next)=>{
         next(error)
     }
 }
-module.exports = {register,getUsers,getSingleUser,deleteUser,userVerify,updateUser,bannedUser}
+module.exports = {register,getUsers,getSingleUser,deleteUser,userVerify,updateUser,handleManageUser}
