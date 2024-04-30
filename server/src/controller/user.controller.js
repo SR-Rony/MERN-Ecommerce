@@ -114,10 +114,7 @@ const getUsers = async (req,res,next)=>{
         const search = req.query.search || "";
         const limit = Number(req.query.limit) || 5;
         const page = Number(req.query.page) || 1;
-        
-        // find user services
-        const {allUser,pasination} = await findUserService(search,limit,page)
-
+       const {allUser,pasination}= await findUserService(search,limit,page)
         // return success respons users
         return successRespons(res,{
             statusCode :200,
@@ -200,8 +197,6 @@ const updateUser = async(req,res,next)=>{
         message : " update",
         paylod :userUpdate
     })
-
-
     }catch(error){
         next(error)
     }
@@ -211,8 +206,6 @@ const handleManageUser = async(req,res,next)=>{
     try{
     const userId = req.params.id;
     const action = req.body.action
-    console.log(action);
-    // handle user action services
    let successMessages = await handleUserAction(userId,action)
 
     //======= user delete and success respons fun () =======//
