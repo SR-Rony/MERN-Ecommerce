@@ -35,10 +35,10 @@ const { jwtAccessKey } = require("../secrit");
                 throw error
             }
         }
-        next()
+       next()
         
     }catch(error){
-        return next()
+        return next(error)
     }
  }
  //  user is logout middleware

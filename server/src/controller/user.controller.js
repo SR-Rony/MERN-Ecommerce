@@ -9,7 +9,7 @@ const { createJsonWebToken } = require("../helper/jsonwebtoken");
 const { jwtActivationKey, clientUrl } = require("../secrit");
 const emailNodmailer = require("../helper/email");
 const runValidation = require("../middlewares/validators");
-const { handleUserAction } = require("../services/userServices");
+const { handleUserAction, findUserService } = require("../services/userServices");
 
 
 //============== user register ============//
@@ -114,43 +114,17 @@ const getUsers = async (req,res,next)=>{
         const search = req.query.search || "";
         const limit = Number(req.query.limit) || 5;
         const page = Number(req.query.page) || 1;
-        // serach regexp
-        const searchRegexp = new RegExp('.*'+search+'.*',"i")
-        // user filter
-        const filter = {
-            isAdmin : {$ne : true},
-            $or : [
-                {name: {$regex:searchRegexp}},
-                {email: {$regex:searchRegexp}},
-                {phone: {$regex:searchRegexp}},
-            ]
-        }
+        
+        // find user services
+        const {allUser,pasination} = await findUserService(search,limit,page)
 
-        const userOption = {password:0}
-
-        // user pagesnation
-        const allUser = await User.find(filter,userOption)
-        .limit(limit)
-        .skip( (page-1) * limit)
-
-        // all user count
-        const count = await User.find(filter).countDocuments();
-
-        if(!allUser){
-            throw createError(404,'No user found')
-        }
         // return success respons users
         return successRespons(res,{
             statusCode :200,
             message : "all user return",
             paylod :{
-                allUser,
-                pasination : {
-                    totalPages: Math.ceil(count/limit),
-                    currentPages : page,
-                    prevPage : page-1 > 0 ? page-1:null,
-                    nextPage : page + 1 <= Math.ceil(count/limit) ? page+1 : null
-                }
+                allUser:allUser,
+                pasination : pasination
             }
         })
     }catch(error){
@@ -238,6 +212,7 @@ const handleManageUser = async(req,res,next)=>{
     const userId = req.params.id;
     const action = req.body.action
     console.log(action);
+    // handle user action services
    let successMessages = await handleUserAction(userId,action)
 
     //======= user delete and success respons fun () =======//
