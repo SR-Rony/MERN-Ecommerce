@@ -1,6 +1,7 @@
 const createError = require("http-errors")
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken")
+const bcrypt = require("bcryptjs")
 
 const { successRespons } = require("./respones.controller");
 const {findWithId } = require("../services/findItem");
@@ -219,6 +220,33 @@ const handleManageUser = async(req,res,next)=>{
         next(error)
     }
 }
+// ======user new password set=========//
+const handleUpdatePassword =async(req,res,next)=>{
+    try {
+        const updateId = req.params.id
+        const {email,oldPassword,newPassword,confirmPassword} = req.body
+        const user = await findWithId(User,updateId)
+        if(!user.email==email){
+            throw createError(400,"Invalid Email")
+        }
+        const passwordChack = await bcrypt.compare(oldPassword,user.password);
+        if(!passwordChack){
+            throw createError(401,"old Password did not match")
+        }
+        let update = {$set: {password:newPassword}}
+        const updateOptions = {new:true}
+        const updateUser = await User.findByIdAndUpdate(updateId,update,updateOptions)
+
+        //======= user delete and success respons fun () =======//
+        return successRespons(res,{
+            statusCode :200,
+            message : "user update successfull",
+            paylod:updateUser
+        })
+    } catch (error) {
+        next(error)
+    }
+}
 
 //====== delete user =======//
 const deleteUser = async(req,res,next)=>{
@@ -243,4 +271,4 @@ const deleteUser = async(req,res,next)=>{
         next(error)
     }
 }
-module.exports = {register,getUsers,getSingleUser,deleteUser,userVerify,updateUser,handleManageUser}
+module.exports = {register,getUsers,getSingleUser,deleteUser,userVerify,updateUser,handleManageUser,handleUpdatePassword}

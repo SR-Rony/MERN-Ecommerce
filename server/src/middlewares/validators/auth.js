@@ -42,6 +42,38 @@ const userRegistationValidate = [
 
 ]
 
+const updatePasswordValidate =[
+    // email validation
+    body("email")
+    .trim()
+    .notEmpty()
+    .withMessage("email is require")
+    .isEmail()
+    .withMessage("Invalid Email"),
+    // old password validation
+    body("oldPassword")
+    .trim()
+    .notEmpty()
+    .withMessage("old password is require")
+    .isLength({min:6})
+    .withMessage("old password shoud be at least 6 characters long"),
+    // new password
+    body("newPassword")
+    .trim()
+    .notEmpty()
+    .withMessage("new password is require")
+    .isLength({min:6})
+    .withMessage("new password shoud be at least 6 characters long"),
+    // new password
+    body("confirmPassword")
+    .trim()
+    .notEmpty()
+    .withMessage("confirm password is require")
+    .isLength({min:6})
+    .withMessage("confirm password shoud be at least 6 characters long"),
+]
+
 module.exports ={
-    userRegistationValidate
+    userRegistationValidate,
+    updatePasswordValidate
 }
