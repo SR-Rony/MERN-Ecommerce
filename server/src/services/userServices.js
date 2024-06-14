@@ -1,5 +1,6 @@
 const createError = require("http-errors");
 const Users = require("../models/userModel");
+const bcrypt = require("bcryptjs")
 
 // find user
 const findUserService = async(search,limit,page)=>{
@@ -73,4 +74,33 @@ const handleUserAction =async(userId,action)=>{
     }
 } 
 
-module.exports ={handleUserAction,findUserService}
+// user password update
+// const updatePassword = async (updateId,email,oldPassword,newPassword,confirmPassword)=>{
+//     try {
+//         const user = await findWithId(Users,updateId)
+//         if(!user.email==email){
+//             throw createError(400,"Invalid Email")
+//         }
+//         if(newPassword!==confirmPassword){
+//             throw createError(400,"new password and confirm password did not match")
+//         }
+//         const passwordChack = await bcrypt.compare(oldPassword,user.password);
+//         if(!passwordChack){
+//             throw createError(401,"old Password did not match")
+//         }
+//         let update = {$set: {password:newPassword}}
+//         const updateOptions = {new:true}
+//         const updateUser = await Users.findByIdAndUpdate(updateId,update,updateOptions)
+
+//         return updateUser
+
+//     } catch (error) {
+//         throw createError(400,error)
+//     }
+// }
+
+module.exports ={
+    handleUserAction,
+    findUserService,
+    // updatePassword
+}

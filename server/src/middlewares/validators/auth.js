@@ -73,7 +73,20 @@ const updatePasswordValidate =[
     .withMessage("confirm password shoud be at least 6 characters long"),
 ]
 
+// validate user forgate password
+
+const userForgatePassword =[
+    // email validation
+    body("email")
+    .trim()
+    .notEmpty()
+    .withMessage("email is require")
+    .isEmail()
+    .withMessage("Invalid Email"),
+]
+
 module.exports ={
     userRegistationValidate,
-    updatePasswordValidate
+    updatePasswordValidate,
+    userForgatePassword
 }

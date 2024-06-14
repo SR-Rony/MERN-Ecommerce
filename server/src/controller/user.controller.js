@@ -7,7 +7,7 @@ const { successRespons } = require("./respones.controller");
 const {findWithId } = require("../services/findItem");
 const deleteImg = require("../helper/deleteImages");
 const { createJsonWebToken } = require("../helper/jsonwebtoken");
-const { jwtActivationKey, clientUrl } = require("../secrit");
+const { jwtActivationKey, clientUrl, resetPasswordKey } = require("../secrit");
 const emailNodmailer = require("../helper/email");
 const runValidation = require("../middlewares/validators");
 const { handleUserAction, findUserService } = require("../services/userServices");
@@ -240,8 +240,47 @@ const handleUpdatePassword =async(req,res,next)=>{
         //======= user delete and success respons fun () =======//
         return successRespons(res,{
             statusCode :200,
-            message : "user update successfull",
+            message : "password update successfull",
             paylod:updateUser
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
+// ======user forgate password set=========//
+const handleForgatePassword =async(req,res,next)=>{
+    try {
+        const {email} = req.body
+        const userData = await User.findOne({email:email})
+        if(!userData){
+            throw  createError(404,"Email is incrrect or you have not varyfied your Email address, Please register")
+        }
+
+        // create jsonwebtoken 
+       const token = createJsonWebToken({email},resetPasswordKey,"10m")
+
+       // prepare email
+       const emailData = {
+           email:email,
+           subject:"Reset password email",
+           html:`
+               <h1>Hello ${userData.name}</h1>
+               <p>please click hear to <a href="${clientUrl}/api/v1/users/forget-password${token}" target="_blank">Reset your password</a></p>
+           `
+       }
+       try{
+           // send email with nodemailer
+          await emailNodmailer(emailData)
+       }catch(emailError){
+           next(createError(500,"fail to reset password email "))
+           return
+       }
+        //======= user delete and success respons fun () =======//
+        return successRespons(res,{
+            statusCode :200,
+            message : `Plase got to your ${email} resetion the password`,
+            paylod:token
         })
     } catch (error) {
         next(error)
@@ -271,4 +310,15 @@ const deleteUser = async(req,res,next)=>{
         next(error)
     }
 }
-module.exports = {register,getUsers,getSingleUser,deleteUser,userVerify,updateUser,handleManageUser,handleUpdatePassword}
+
+module.exports = {
+    register,
+    getUsers,
+    getSingleUser,
+    deleteUser,
+    userVerify,
+    updateUser,
+    handleManageUser,
+    handleUpdatePassword,
+    handleForgatePassword
+}
