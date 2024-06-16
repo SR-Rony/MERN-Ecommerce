@@ -10,7 +10,7 @@ const { createJsonWebToken } = require("../helper/jsonwebtoken");
 const { jwtActivationKey, clientUrl, resetPasswordKey } = require("../secrit");
 const emailNodmailer = require("../helper/email");
 const runValidation = require("../middlewares/validators");
-const { handleUserAction, findUserService } = require("../services/userServices");
+const { handleUserAction, findUserService, forgetPasswordService, updatePassword } = require("../services/userServices");
 
 
 //============== user register ============//
@@ -225,17 +225,7 @@ const handleUpdatePassword =async(req,res,next)=>{
     try {
         const updateId = req.params.id
         const {email,oldPassword,newPassword,confirmPassword} = req.body
-        const user = await findWithId(User,updateId)
-        if(!user.email==email){
-            throw createError(400,"Invalid Email")
-        }
-        const passwordChack = await bcrypt.compare(oldPassword,user.password);
-        if(!passwordChack){
-            throw createError(401,"old Password did not match")
-        }
-        let update = {$set: {password:newPassword}}
-        const updateOptions = {new:true}
-        const updateUser = await User.findByIdAndUpdate(updateId,update,updateOptions)
+        const updateUser =  updatePassword (updateId,email,oldPassword,newPassword,confirmPassword)
 
         //======= user delete and success respons fun () =======//
         return successRespons(res,{
@@ -252,35 +242,12 @@ const handleUpdatePassword =async(req,res,next)=>{
 const handleForgatePassword =async(req,res,next)=>{
     try {
         const {email} = req.body
-        const userData = await User.findOne({email:email})
-        if(!userData){
-            throw  createError(404,"Email is incrrect or you have not varyfied your Email address, Please register")
-        }
-
-        // create jsonwebtoken 
-       const token = createJsonWebToken({email},resetPasswordKey,"10m")
-
-       // prepare email
-       const emailData = {
-           email:email,
-           subject:"Reset password email",
-           html:`
-               <h1>Hello ${userData.name}</h1>
-               <p>please click hear to <a href="${clientUrl}/api/v1/users/forget-password${token}" target="_blank">Reset your password</a></p>
-           `
-       }
-       try{
-           // send email with nodemailer
-          await emailNodmailer(emailData)
-       }catch(emailError){
-           next(createError(500,"fail to reset password email "))
-           return
-       }
+        const token = await forgetPasswordService(email)
         //======= user delete and success respons fun () =======//
         return successRespons(res,{
             statusCode :200,
             message : `Plase got to your ${email} resetion the password`,
-            paylod:token
+            paylod:{token:token}
         })
     } catch (error) {
         next(error)

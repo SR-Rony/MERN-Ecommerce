@@ -1,6 +1,10 @@
 const createError = require("http-errors");
 const Users = require("../models/userModel");
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
+const { createJsonWebToken } = require("../helper/jsonwebtoken");
+const { clientUrl, resetPasswordKey } = require("../secrit");
+const emailNodmailer = require("../helper/email");
+const { findWithId } = require("./findItem");
 
 // find user
 const findUserService = async(search,limit,page)=>{
@@ -75,32 +79,61 @@ const handleUserAction =async(userId,action)=>{
 } 
 
 // user password update
-// const updatePassword = async (updateId,email,oldPassword,newPassword,confirmPassword)=>{
-//     try {
-//         const user = await findWithId(Users,updateId)
-//         if(!user.email==email){
-//             throw createError(400,"Invalid Email")
-//         }
-//         if(newPassword!==confirmPassword){
-//             throw createError(400,"new password and confirm password did not match")
-//         }
-//         const passwordChack = await bcrypt.compare(oldPassword,user.password);
-//         if(!passwordChack){
-//             throw createError(401,"old Password did not match")
-//         }
-//         let update = {$set: {password:newPassword}}
-//         const updateOptions = {new:true}
-//         const updateUser = await Users.findByIdAndUpdate(updateId,update,updateOptions)
+const updatePassword = async (updateId,email,oldPassword,newPassword,confirmPassword)=>{
+    try {
+        const user = await findWithId(Users,updateId)
+        if(!user.email==email){
+            throw createError(400,"Invalid Email")
+        }
+        if(newPassword!==confirmPassword){
+            throw createError(400,"new password and confirm password did not match")
+        }
+        const passwordChack = await bcrypt.compare(oldPassword,user.password);
+        if(!passwordChack){
+            throw createError(401,"old Password did not match")
+        }
+        let update = {$set: {password:newPassword}}
+        const updateOptions = {new:true}
+        const updateUser = await Users.findByIdAndUpdate(updateId,update,updateOptions)
 
-//         return updateUser
+        return updateUser
 
-//     } catch (error) {
-//         throw createError(400,error)
-//     }
-// }
+    } catch (error) {
+        throw createError(400,error)
+    }
+}
+
+// forget password service
+const forgetPasswordService =async (email)=>{
+    try{
+        const userData = await Users.findOne({email:email})
+        if(!userData){
+            throw  createError(404,"Email is incrrect or you have not varyfied your Email address, Please register")
+        }
+
+        // create jsonwebtoken 
+       const token = createJsonWebToken({email},resetPasswordKey,"10m")
+
+       // prepare email
+       const emailData = {
+           email:email,
+           subject:"Reset password email",
+           html:`
+               <h1>Hello ${userData.name}</h1>
+               <p>please click hear to <a href="${clientUrl}/api/v1/users/forget-password${token}" target="_blank">Reset your password</a></p>
+           `
+        }
+           // send email with nodemailer
+          await emailNodmailer(emailData)
+          return token
+    }catch(error){
+        throw error
+    }
+}
 
 module.exports ={
     handleUserAction,
     findUserService,
-    // updatePassword
+    forgetPasswordService,
+    updatePassword
 }
