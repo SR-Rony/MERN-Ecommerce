@@ -85,8 +85,26 @@ const userForgatePassword =[
     .withMessage("Invalid Email"),
 ]
 
+// validate user reset password 
+
+const userResetPassword =[
+    // email validation
+    body("token")
+    .trim()
+    .notEmpty()
+    .withMessage("token is require"),
+    // password validation
+    body("newpassword")
+    .trim()
+    .notEmpty()
+    .withMessage("password is require")
+    .isLength({min:6})
+    .withMessage("password shoud be at least 6 characters long"),
+]
+
 module.exports ={
     userRegistationValidate,
     updatePasswordValidate,
-    userForgatePassword
+    userForgatePassword,
+    userResetPassword
 }

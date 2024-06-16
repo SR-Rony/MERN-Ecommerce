@@ -5,6 +5,7 @@ const { createJsonWebToken } = require("../helper/jsonwebtoken");
 const { clientUrl, resetPasswordKey } = require("../secrit");
 const emailNodmailer = require("../helper/email");
 const { findWithId } = require("./findItem");
+const jwt = require("jsonwebtoken")
 
 // find user
 const findUserService = async(search,limit,page)=>{
@@ -131,9 +132,43 @@ const forgetPasswordService =async (email)=>{
     }
 }
 
+// forget password service
+const resetPasswordService =async (token,newpassword)=>{
+    try{
+        //  console.log(token,newpassword);
+         const decoded = jwt.verify(token,resetPasswordKey)
+
+         if(!decoded){
+            throw createError(400,'Invalid or expire token')
+         }
+         const filter = {email:decoded.email};
+         const update = {password:newpassword}
+         const option = {new:true}
+
+        //  const passwordChack = await bcrypt.compare(oldPassword,user.password);
+        // if(!passwordChack){
+        //     throw createError(401,"old Password did not match")
+        // }
+        // let update = {$set: {password:newPassword}}
+        // const updateOptions = {new:true}
+        const updateUser = await Users.findOneAndUpdate(filter,update,option).select('-password')
+        if(!updateUser){
+            throw createError(400,"password reset faild")
+        }
+
+        return updateUser
+
+          
+    }catch(error){
+        throw error
+    }
+}
+
+
 module.exports ={
     handleUserAction,
     findUserService,
     forgetPasswordService,
-    updatePassword
+    updatePassword,
+    resetPasswordService
 }

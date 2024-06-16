@@ -10,7 +10,7 @@ const { createJsonWebToken } = require("../helper/jsonwebtoken");
 const { jwtActivationKey, clientUrl, resetPasswordKey } = require("../secrit");
 const emailNodmailer = require("../helper/email");
 const runValidation = require("../middlewares/validators");
-const { handleUserAction, findUserService, forgetPasswordService, updatePassword } = require("../services/userServices");
+const { handleUserAction, findUserService, forgetPasswordService, updatePassword, resetPasswordService } = require("../services/userServices");
 
 
 //============== user register ============//
@@ -254,6 +254,22 @@ const handleForgatePassword =async(req,res,next)=>{
     }
 }
 
+// ======user reset password set=========//
+const handleResetPassword =async(req,res,next)=>{
+    try {
+        const {token,newpassword} = req.body
+        const userData = await resetPasswordService(token,newpassword)
+        //======= user delete and success respons fun () =======//
+        return successRespons(res,{
+            statusCode :200,
+            message : `Reset password successfull`,
+            paylod:userData
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
 //====== delete user =======//
 const deleteUser = async(req,res,next)=>{
     try{
@@ -287,5 +303,6 @@ module.exports = {
     updateUser,
     handleManageUser,
     handleUpdatePassword,
-    handleForgatePassword
+    handleForgatePassword,
+    handleResetPassword
 }

@@ -1,8 +1,8 @@
 const route = require("express").Router()
-const { getUsers, getSingleUser, deleteUser, register, userVerify, updateUser, bannedUser, handleManageUser, handleUpdatePassword, handleForgatePassword } = require("../../controller/user.controller")
+const { getUsers, getSingleUser, deleteUser, register, userVerify, updateUser, bannedUser, handleManageUser, handleUpdatePassword, handleForgatePassword, handleResetPassword } = require("../../controller/user.controller")
 const upload = require("../../middlewares/uplodFile")
 const runValidation = require("../../middlewares/validators")
-const { userRegistationValidate, updatePasswordValidate, userForgatePassword } = require("../../middlewares/validators/auth")
+const { userRegistationValidate, updatePasswordValidate, userForgatePassword, userResetPassword } = require("../../middlewares/validators/auth")
 const {isLoggedIn, isLoggedOut, isAdmin} = require("../../middlewares/auth")
 
 // user register route
@@ -19,7 +19,10 @@ route.delete("/:id",isLoggedIn,deleteUser)
 route.put("/update/:id",upload.single("image"),isLoggedIn,updateUser)
 // user new password set
 route.put("/update-password/:id",isLoggedIn,updatePasswordValidate,handleUpdatePassword)
-route.put("/forget-password",isLoggedIn,userForgatePassword,runValidation, handleForgatePassword)
+// user forget password set
+route.post("/forget-password",isLoggedIn,userForgatePassword,runValidation, handleForgatePassword)
+// user reset password
+route.put("/reset-password",isLoggedIn,userResetPassword,runValidation, handleResetPassword)
 // handle manage user
 route.put("/manage-user/:id",isLoggedIn,isAdmin,handleManageUser)
 
