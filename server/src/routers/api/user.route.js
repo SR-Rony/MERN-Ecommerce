@@ -12,18 +12,18 @@ route.post("/verify",isLoggedOut,userVerify)
 // all get user
 route.get("/",isLoggedIn,isAdmin,getUsers)
 // single get user
-route.get("/:id",isLoggedIn,getSingleUser)
+route.get("/:id([0-9a-fA-F]{24})",isLoggedIn,getSingleUser)
 // delete user
-route.delete("/:id",isLoggedIn,deleteUser)
+route.delete("/:id([0-9a-fA-F]{24})",isLoggedIn,deleteUser)
 // update user
-route.put("/update/:id",upload.single("image"),isLoggedIn,updateUser)
+route.put("/update/:id([0-9a-fA-F]{24})",upload.single("image"),isLoggedIn,updateUser)
 // user new password set
-route.put("/update-password/:id",isLoggedIn,updatePasswordValidate,handleUpdatePassword)
+route.put("/update-password/:id([0-9a-fA-F]{24})",isLoggedIn,updatePasswordValidate,handleUpdatePassword)
 // user forget password set
 route.post("/forget-password",isLoggedIn,userForgatePassword,runValidation, handleForgatePassword)
 // user reset password
 route.put("/reset-password",isLoggedIn,userResetPassword,runValidation, handleResetPassword)
 // handle manage user
-route.put("/manage-user/:id",isLoggedIn,isAdmin,handleManageUser)
+route.put("/manage-user/:id([0-9a-fA-F]{24})",isLoggedIn,isAdmin,handleManageUser)
 
 module.exports = route

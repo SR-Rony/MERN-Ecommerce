@@ -27,10 +27,10 @@ const login = async (req,res,next)=>{
             throw createError(403,"You are banned . please contact authority")
         }
         // create accesstoken
-        const accessToken = createJsonWebToken({user},jwtAccessKey,"2m")
+        const accessToken = createJsonWebToken({user},jwtAccessKey,"5m")
 
         res.cookie("accessToken",accessToken,{
-            mixAge : 2 * 60 * 1000, //15 minutes
+            maxAge : 5 * 60 * 1000, //15 minutes
             httpOnly : true,
             secure : true,
             sameSite : "none"
@@ -39,12 +39,14 @@ const login = async (req,res,next)=>{
          const refreshToken = createJsonWebToken({user},jwtRefreshKey,"7d")
 
          res.cookie("refreshToken",refreshToken,{
-             mixAge : 7 * 24 * 60 * 60 * 1000, //7 days
+             maxAge : 7 * 24 * 60 * 60 * 1000, //7 days
              httpOnly : true,
              secure : true,
              sameSite : "none"
          })
 
+         const userWithoutPassword = user.toObject();
+         delete userWithoutPassword.password;
 
         // user successfull response
         return successRespons(res,{
@@ -60,6 +62,7 @@ const login = async (req,res,next)=>{
 const logout = async (req,res,next)=>{
     try{
         res.clearCookie("accessToken")
+        res.clearCookie("refreshToken")
         // user successfull response
         return successRespons(res,{
             statusCode:200,
@@ -69,7 +72,7 @@ const logout = async (req,res,next)=>{
         next(error)
     }
 }
-//============ user logout ============ 
+//============ user refresh token============ 
 const handleRefreshToken = async (req,res,next)=>{
     try{
         const oldRefreshToken = req.cookies.refreshToken;
@@ -79,10 +82,10 @@ const handleRefreshToken = async (req,res,next)=>{
             throw createError(401,'Invalid refresh token please login again')
          }
 
-         const accessToken = createJsonWebToken(decodedToken.user,jwtAccessKey,"2m")
+         const accessToken = createJsonWebToken(decodedToken.user,jwtAccessKey,"5m")
 
             res.cookie("accessToken",accessToken,{
-                mixAge : 2 * 60 * 1000, //15 minutes
+                maxAge : 5 * 60 * 1000, //15 minutes
                 httpOnly : true,
                 secure : true,
                 sameSite : "none"
@@ -97,4 +100,23 @@ const handleRefreshToken = async (req,res,next)=>{
         next(error)
     }
 }
-module.exports = {login,logout,handleRefreshToken}
+//============ user protected logout ============ 
+const handleProtected = async (req,res,next)=>{
+    try{
+        const accessToken  = req.cookies.accessToken;
+        const decoded = jwt.verify(accessToken,jwtAccessKey)
+
+         if(!decoded){
+            throw createError(401,'Invalid access token please login again')
+         }
+
+        // user successfull response
+        return successRespons(res,{
+            statusCode:200,
+            message:"Protected access successfull",
+        })
+    }catch(error){
+        next(error)
+    }
+}
+module.exports = {login,logout,handleRefreshToken,handleProtected}
