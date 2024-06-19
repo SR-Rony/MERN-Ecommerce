@@ -5,6 +5,7 @@ const dbName=process.env.DB_NAME
 const dbPassword=process.env.DB_PASSWORD
 const jwtActivationKey = process.env.JWT_ACTIVATION_KEY || "iamsrrony707@1w23eqreafdv";
 const jwtAccessKey = process.env.JWT_ACCESS_KEY || "iamsrrony707@1w23eqreafdv";
+const jwtRefreshKey = process.env.JWT_REFRESH_KEY || "iamsrrony707@1w23eqreafdv";
 const resetPasswordKey = process.env.JWT_RESET_PASSWORD_KEY || "iamsrrony707@1w23eqreafdvdfhtv";
 const smtpUserName= process.env.SMTP_USERNAME
 const smtpPassword= process.env.SMTP_PASSWORD
@@ -25,5 +26,6 @@ module.exports = {
     dbName,
     dbPassword,
     jwtAccessKey,
-    resetPasswordKey
+    resetPasswordKey,
+    jwtRefreshKey
 }

@@ -4,7 +4,7 @@ const Users = require("../models/userModel");
 const { successRespons } = require("./respones.controller");
 const bcrypt = require("bcryptjs");
 const { createJsonWebToken } = require("../helper/jsonwebtoken");
-const { jwtAccessKey } = require("../secrit");
+const { jwtAccessKey, jwtRefreshKey } = require("../secrit");
 
 //============ user login ============ 
 const login = async (req,res,next)=>{
@@ -26,15 +26,24 @@ const login = async (req,res,next)=>{
         if(user.isBanned){
             throw createError(403,"You are banned . please contact authority")
         }
-        // create  token
-        const accessToken = createJsonWebToken({user},jwtAccessKey,"15m")
+        // create accesstoken
+        const accessToken = createJsonWebToken({user},jwtAccessKey,"2m")
 
         res.cookie("accessToken",accessToken,{
-            mixAge : 15 * 60 * 1000, //15 minutes
+            mixAge : 2 * 60 * 1000, //15 minutes
             httpOnly : true,
             secure : true,
             sameSite : "none"
         })
+         // create refresh token
+         const refreshToken = createJsonWebToken({user},jwtRefreshKey,"7d")
+
+         res.cookie("refreshToken",refreshToken,{
+             mixAge : 7 * 24 * 60 * 60 * 1000, //7 days
+             httpOnly : true,
+             secure : true,
+             sameSite : "none"
+         })
 
 
         // user successfull response
@@ -60,5 +69,32 @@ const logout = async (req,res,next)=>{
         next(error)
     }
 }
+//============ user logout ============ 
+const handleRefreshToken = async (req,res,next)=>{
+    try{
+        const oldRefreshToken = req.cookies.refreshToken;
+        const decodedToken = jwt.verify(oldRefreshToken,jwtRefreshKey)
 
-module.exports = {login,logout}
+         if(!decodedToken){
+            throw createError(401,'Invalid refresh token please login again')
+         }
+
+         const accessToken = createJsonWebToken(decodedToken.user,jwtAccessKey,"2m")
+
+            res.cookie("accessToken",accessToken,{
+                mixAge : 2 * 60 * 1000, //15 minutes
+                httpOnly : true,
+                secure : true,
+                sameSite : "none"
+            })
+
+        // user successfull response
+        return successRespons(res,{
+            statusCode:200,
+            message:"User new access token create successfull",
+        })
+    }catch(error){
+        next(error)
+    }
+}
+module.exports = {login,logout,handleRefreshToken}

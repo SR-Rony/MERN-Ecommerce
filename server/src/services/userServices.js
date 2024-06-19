@@ -144,13 +144,6 @@ const resetPasswordService =async (token,newpassword)=>{
          const filter = {email:decoded.email};
          const update = {password:newpassword}
          const option = {new:true}
-
-        //  const passwordChack = await bcrypt.compare(oldPassword,user.password);
-        // if(!passwordChack){
-        //     throw createError(401,"old Password did not match")
-        // }
-        // let update = {$set: {password:newPassword}}
-        // const updateOptions = {new:true}
         const updateUser = await Users.findOneAndUpdate(filter,update,option).select('-password')
         if(!updateUser){
             throw createError(400,"password reset faild")
