@@ -7,7 +7,7 @@ const { createJsonWebToken } = require("../helper/jsonwebtoken");
 const { jwtAccessKey, jwtRefreshKey } = require("../secrit");
 
 //============ user login ============ 
-const login = async (req,res,next)=>{
+const handleLogin = async (req,res,next)=>{
     try{
         // email and password req.body
         const {email,password} = req.body;
@@ -59,7 +59,7 @@ const login = async (req,res,next)=>{
     }
 }
 //============ user logout ============ 
-const logout = async (req,res,next)=>{
+const handleLogout = async (req,res,next)=>{
     try{
         res.clearCookie("accessToken")
         res.clearCookie("refreshToken")
@@ -119,4 +119,4 @@ const handleProtected = async (req,res,next)=>{
         next(error)
     }
 }
-module.exports = {login,logout,handleRefreshToken,handleProtected}
+module.exports = {handleLogin,handleLogout,handleRefreshToken,handleProtected}

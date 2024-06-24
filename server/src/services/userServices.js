@@ -4,10 +4,10 @@ const bcrypt = require("bcryptjs");
 const { createJsonWebToken } = require("../helper/jsonwebtoken");
 const { clientUrl, resetPasswordKey } = require("../secrit");
 const emailNodmailer = require("../helper/email");
-const { findWithId } = require("./findItem");
+const { findWithIdService } = require("./findItem");
 const jwt = require("jsonwebtoken")
 
-// find user
+// find user service
 const findUserService = async(search,limit,page)=>{
     try{
         const searchRegexp = new RegExp('.*'+search+'.*',"i")
@@ -51,8 +51,8 @@ const findUserService = async(search,limit,page)=>{
     }
 }
 
-// handle user action
-const handleUserAction =async(userId,action)=>{
+// handle user action 
+const UserActionService =async(userId,action)=>{
     try {
         let successMessages;
         let update
@@ -80,9 +80,9 @@ const handleUserAction =async(userId,action)=>{
 } 
 
 // user password update
-const updatePassword = async (updateId,email,oldPassword,newPassword,confirmPassword)=>{
+const updatePasswordService = async (updateId,email,oldPassword,newPassword,confirmPassword)=>{
     try {
-        const user = await findWithId(Users,updateId)
+        const user = await findWithIdService(Users,updateId)
         if(!user.email==email){
             throw createError(400,"Invalid Email")
         }
@@ -159,9 +159,9 @@ const resetPasswordService =async (token,newpassword)=>{
 
 
 module.exports ={
-    handleUserAction,
+    UserActionService,
     findUserService,
     forgetPasswordService,
-    updatePassword,
+    updatePasswordService,
     resetPasswordService
 }

@@ -5,13 +5,16 @@ const seedRoute = require("./seed.route")
 const userRoute = require("./user.route")
 
 // user route
-route.use("/users",userRoute)
+route.use("/users",userRoute) //localhost:400/api/v1/users
+
 // auth route
-route.use("/auth",authRoute)
+route.use("/auth",authRoute) //localhost:400/api/v1/auth
+
 // seeduser route
-route.use("/seeduser",seedRoute)
+route.use("/seeduser",seedRoute) //localhost:400/api/v1/seeduser
+
 // category router
-route.use("/category",categoryRoute)
+route.use("/category",categoryRoute) //localhost:400/api/v1/category
 
 
 module.exports = route

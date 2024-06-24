@@ -5,8 +5,9 @@ const createError = require('http-errors')
 const rateLimit = require('express-rate-limit')
 const route = require("./routers/route");
 const { errorRespons } = require('./controller/respones.controller');
-const app = express();
 
+const app = express();
+// server rate limite
 const rateLimiter = rateLimit({
     window : 1* 60 * 1000 ,//1 minute
     max : 10,
@@ -23,7 +24,6 @@ app.use(express.urlencoded({extended:true}))
 
 // api routers
 app.use(route)
-
 
 app.get("/",(req,res)=>{
     res.status(200).send('welcome to my server')

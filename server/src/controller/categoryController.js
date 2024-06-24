@@ -5,7 +5,7 @@ const { createCategoryServices } = require('../services/categoryServices')
 
 
 // GET vew categroy
-const getCategory = async (req,res,next)=>{
+const handleGetCategory = async (req,res,next)=>{
     const category = await Category.find({}).select('name slug').lean()
     // success response
     successRespons(res,{
@@ -16,7 +16,7 @@ const getCategory = async (req,res,next)=>{
 }
 
 // GET vew single categroy
-const getSingleCategory = async (req,res,next)=>{
+const handleGetSingleCategory = async (req,res,next)=>{
     const {slug} = req.params
     const singleCategory = await Category.find({slug})
     // success response
@@ -28,7 +28,7 @@ const getSingleCategory = async (req,res,next)=>{
 }
 
 // POST create category
-const createCategory = async(req,res,next)=>{
+const handleCreateCategory = async(req,res,next)=>{
    try {
     const {name} = req.body
     const newCategory = await createCategoryServices(name)
@@ -46,7 +46,7 @@ const createCategory = async(req,res,next)=>{
 
 
 module.exports = {
-    getCategory,
-    getSingleCategory,
-    createCategory
+    handleGetCategory,
+    handleGetSingleCategory,
+    handleCreateCategory
 }

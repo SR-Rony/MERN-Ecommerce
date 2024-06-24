@@ -1,20 +1,18 @@
 const createError = require("http-errors")
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken")
-const bcrypt = require("bcryptjs")
 
 const { successRespons } = require("./respones.controller");
-const {findWithId } = require("../services/findItem");
+const {findWithIdService } = require("../services/findItem");
 const deleteImg = require("../helper/deleteImages");
 const { createJsonWebToken } = require("../helper/jsonwebtoken");
-const { jwtActivationKey, clientUrl, resetPasswordKey } = require("../secrit");
+const { jwtActivationKey, clientUrl, } = require("../secrit");
 const emailNodmailer = require("../helper/email");
-const runValidation = require("../middlewares/validators");
-const { handleUserAction, findUserService, forgetPasswordService, updatePassword, resetPasswordService } = require("../services/userServices");
+const { findUserService, forgetPasswordService, resetPasswordService, UserActionService, updatePasswordService } = require("../services/userServices");
 
 
 //============== user register ============//
-const register = async (req,res,next)=>{
+const handleRegister = async (req,res,next)=>{
     try{
         const {name,email,password,address,phone,}=req.body;
 
@@ -64,7 +62,7 @@ const register = async (req,res,next)=>{
 }
 
 //============== user verify ============//
-const userVerify = async (req,res,next)=>{
+const handleUserVerify = async (req,res,next)=>{
     try{
         // user token
         const token = req.body.token;
@@ -109,7 +107,7 @@ const userVerify = async (req,res,next)=>{
 }
 
 //======== get all users ========//
-const getUsers = async (req,res,next)=>{
+const handleGetUsers = async (req,res,next)=>{
     try{
         // user request
         const search = req.query.search || "";
@@ -131,14 +129,14 @@ const getUsers = async (req,res,next)=>{
 }
 
 //======== single get user=======//
-const getSingleUser = async (req,res,next)=>{
+const handleGetSingleUser = async (req,res,next)=>{
     try{
         console.log("single suer",req.user);
         const id = req.params.id;
         const option = {password:0}
         
         // single user search by id
-        let singleUser = await findWithId(User,id,option)
+        let singleUser = await findWithIdService(User,id,option)
 
         // user success respons 
         return successRespons(res,{
@@ -154,11 +152,11 @@ const getSingleUser = async (req,res,next)=>{
 }
 
 //====== update user =======//
-const updateUser = async(req,res,next)=>{
+const handleUpdateUser = async(req,res,next)=>{
     try{
     const updateId = req.params.id;
     const option = {password:0};
-    const user = await findWithId(User,updateId,option)
+    const user = await findWithIdService(User,updateId,option)
 
     let updateOptions = {new:true,runValidation:true,context:"query"}
 
@@ -207,7 +205,7 @@ const handleManageUser = async(req,res,next)=>{
     try{
     const userId = req.params.id;
     const action = req.body.action
-   let successMessages = await handleUserAction(userId,action)
+   let successMessages = await UserActionService(userId,action)
 
     //======= user delete and success respons fun () =======//
     return successRespons(res,{
@@ -225,7 +223,7 @@ const handleUpdatePassword =async(req,res,next)=>{
     try {
         const updateId = req.params.id
         const {email,oldPassword,newPassword,confirmPassword} = req.body
-        const updateUser =  updatePassword (updateId,email,oldPassword,newPassword,confirmPassword)
+        const updateUser =  updatePasswordService (updateId,email,oldPassword,newPassword,confirmPassword)
 
         //======= user delete and success respons fun () =======//
         return successRespons(res,{
@@ -271,11 +269,11 @@ const handleResetPassword =async(req,res,next)=>{
 }
 
 //====== delete user =======//
-const deleteUser = async(req,res,next)=>{
+const handleDeleteUser = async(req,res,next)=>{
     try{
     const id = req.params.id;
     const option = {password:0}
-    const user = await findWithId(User,id,option)
+    const user = await findWithIdService(User,id,option)
     //    delete user
        await User.findByIdAndDelete({_id:id,isAdmin:false})
 
@@ -295,12 +293,12 @@ const deleteUser = async(req,res,next)=>{
 }
 
 module.exports = {
-    register,
-    getUsers,
-    getSingleUser,
-    deleteUser,
-    userVerify,
-    updateUser,
+    handleRegister,
+    handleGetUsers,
+    handleGetSingleUser,
+    handleDeleteUser,
+    handleUserVerify,
+    handleUpdateUser,
     handleManageUser,
     handleUpdatePassword,
     handleForgatePassword,
