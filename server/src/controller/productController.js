@@ -2,10 +2,20 @@ const createError = require("http-errors")
 const  slugify = require("slugify")
 const Product = require("../models/productModel")
 const { successRespons } = require("./respones.controller")
+const { createProductServices } = require("../services/productServices")
 // handle GET product
-const handleVewProduct =(req,res,next)=>{
+const handleVewProduct = async(req,res,next)=>{
     try {
-        res.send('I am a get product')
+        const allProducts = await Product.find()
+        if(!allProducts){
+            throw createError(404,'All product not vew')
+        }
+         // success response message
+         return successRespons(res,{
+            statusCode:201,
+            message:'All product vew successfull',
+            paylod:allProducts
+        })
     } catch (error) {
         next(error)   
     }
@@ -16,7 +26,6 @@ const handleCreateProduct = async (req,res,next)=>{
     try {
         const {name,description,price,quantity,shipping,categoryId}=req.body
         console.log(req.body);
-       const productSlug = slugify(name)
         const image = req.file?.path; //images path
         if(!image){
             throw createError(409,"images file is require")
@@ -25,22 +34,9 @@ const handleCreateProduct = async (req,res,next)=>{
             throw createError(409,"file to large. It must be less than  2MB")
         }
 
-        const productExists = await Product.exists({name:name})
-        if(productExists){
-            throw createError(409,'Product name already exists')
-        }
+        const newProduct = await createProductServices(name,description,price,quantity,shipping,categoryId,image)
 
-        const newProduct = await Product.create({
-            name:name,
-            slug:productSlug,
-            description:description,
-            price:price,
-            quantity:quantity,
-            shipping:shipping,
-            image:image,
-            categoryId:categoryId
-        })
-
+        
         // success response message
         return successRespons(res,{
             statusCode:201,
