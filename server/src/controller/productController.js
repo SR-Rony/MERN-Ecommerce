@@ -3,18 +3,56 @@ const  slugify = require("slugify")
 const Product = require("../models/productModel")
 const { successRespons } = require("./respones.controller")
 const { createProductServices } = require("../services/productServices")
+
 // handle GET product
 const handleVewProduct = async(req,res,next)=>{
     try {
+        const page = parseInt(req.query.page) || 1 ;
+        const limit = parseInt(req.query.page) || 4
+
         const allProducts = await Product.find()
+        .populate('categoryId')
+        .skip((page-1)*limit)
+        .limit(limit)
+        .sort({createdAt: -1})
+
         if(!allProducts){
-            throw createError(404,'All product not vew')
+            throw createError(404,'Product not found')
         }
+        const count = await Product.find({}).countDocuments()
          // success response message
          return successRespons(res,{
             statusCode:201,
             message:'All product vew successfull',
-            paylod:allProducts
+            paylod:{
+                products:allProducts,
+                pagitaion:{
+                    totalPages: Math.ceil(count/limit),
+                    currentPage:page,
+                    prevPage:page-1,
+                    nextPage:page+1,
+                    totalProduct:count
+                }
+            }
+        })
+    } catch (error) {
+        next(error)   
+    }
+}
+
+// handle GET product
+const handleVewSingleProduct = async(req,res,next)=>{
+    try {
+        const {slug} = req.params
+        const singleProduct = await Product.findOne({slug:slug}).populate('categoryId')
+        if(!singleProduct){
+            throw createError(404,'Product not found')
+        }
+         // success response message
+         return successRespons(res,{
+            statusCode:201,
+            message:'product vew successfull',
+            paylod:singleProduct
         })
     } catch (error) {
         next(error)   
@@ -35,7 +73,6 @@ const handleCreateProduct = async (req,res,next)=>{
         }
 
         const newProduct = await createProductServices(name,description,price,quantity,shipping,categoryId,image)
-
         
         // success response message
         return successRespons(res,{
@@ -54,5 +91,6 @@ const handleCreateProduct = async (req,res,next)=>{
 
 module.exports = {
     handleVewProduct,
+    handleVewSingleProduct,
     handleCreateProduct
 }

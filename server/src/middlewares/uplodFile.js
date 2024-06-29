@@ -1,11 +1,13 @@
 const multer = require("multer")
 const path = require("path")
 const createError = require("http-errors")
-const { uplodDir, fileSize, fileTypes } = require("../config")
+const { userUplodDir, productUplodDir, fileSize, fileTypes } = require("../config")
 
-const storage = multer.diskStorage({
+
+// userr images upload storage
+const userStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, uplodDir)
+      cb(null, userUplodDir)
     },
     filename: function (req, file, cb) {
         // const extname=path.extname(file.originalname)
@@ -13,6 +15,20 @@ const storage = multer.diskStorage({
       cb(null, Date.now() + '-' + file.originalname)
     }
   })
+
+  // product images upload storage
+  const productStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, productUplodDir)
+    },
+    filename: function (req, file, cb) {
+        // const extname=path.extname(file.originalname)
+      // const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+      cb(null, Date.now() + '-' + file.originalname)
+    }
+  })
+
+
 
   const fileFileter =(req,file,cb)=>{
     const extname =  path.extname(file.originalname);
@@ -23,9 +39,17 @@ const storage = multer.diskStorage({
     cb(null,true)
   }
   
-  const upload = multer({ 
-    storage: storage ,
+  // upload user image
+  const uploadUserImage = multer({ 
+    storage: userStorage ,
     limits:{fileSize:fileSize},
     fileFileter:fileFileter,
   })
-  module.exports = upload
+
+  // upload product image
+  const uploadProductImage = multer({ 
+    storage: productStorage ,
+    limits:{fileSize:fileSize},
+    fileFileter:fileFileter,
+  })
+  module.exports = {uploadUserImage,uploadProductImage}

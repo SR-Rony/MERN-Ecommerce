@@ -1,5 +1,4 @@
 const createError = require('http-errors')
-const slugify = require('slugify')
 const Category = require("../models/categoryModel")
 const { successRespons } = require("./respones.controller")
 const { createCategoryServices, deleteCategoryServices, updateCategoryServices } = require('../services/categoryServices')
@@ -19,7 +18,10 @@ const handleGetCategory = async (req,res,next)=>{
 // GET vew single categroy
 const handleGetSingleCategory = async (req,res,next)=>{
     const {slug} = req.params
-    const singleCategory = await Category.find({slug})
+    const singleCategory = await Category.find({slug:slug})
+    if(!singleCategory){
+        throw createError(400,'Invalid product')
+    }
     // success response
     successRespons(res,{
         statusCode:200,
