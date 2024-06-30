@@ -1,5 +1,5 @@
 const express = require('express')
-const { handleVewProduct, handleCreateProduct, handleVewSingleProduct } = require('../../controller/productController')
+const { handleVewProduct, handleCreateProduct, handleVewSingleProduct, handleDeleteProduct } = require('../../controller/productController')
 const { isLoggedIn, isAdmin } = require('../../middlewares/auth')
 const { validateProduct } = require('../../middlewares/validators/product')
 const runValidation = require('../../middlewares/validators')
@@ -14,5 +14,8 @@ productRoute.get("/:slug",handleVewSingleProduct)
 
 //POST localhost:400/api/v1/product
 productRoute.post("/",isLoggedIn,uploadProductImage.single("image"),validateProduct,runValidation,isAdmin,handleCreateProduct)
+
+//DELETE localhost:400/api/v1/product/slug
+productRoute.delete("/:slug",isLoggedIn,isAdmin,handleDeleteProduct)
 
 module.exports = productRoute

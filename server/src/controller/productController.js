@@ -3,6 +3,7 @@ const  slugify = require("slugify")
 const Product = require("../models/productModel")
 const { successRespons } = require("./respones.controller")
 const { createProductServices } = require("../services/productServices")
+const deleteImg = require("../helper/deleteImages")
 
 // handle GET product
 const handleVewProduct = async(req,res,next)=>{
@@ -88,9 +89,33 @@ const handleCreateProduct = async (req,res,next)=>{
 
 }
 
+// handle delete product
+const handleDeleteProduct = async(req,res,next)=>{
+    try {
+        const {slug} = req.params
+        const deleteProduct = await Product.findOneAndDelete({slug:slug})
+        if(!deleteProduct){
+            throw createError(404,'Product not found')
+        }
+        
+        if(deleteProduct.image){
+            await deleteImg(deleteProduct.image)
+        }
+         // success response message
+         return successRespons(res,{
+            statusCode:201,
+            message:'product delete successfull',
+            paylod:deleteProduct
+        })
+    } catch (error) {
+        next(error)   
+    }
+}
+
 
 module.exports = {
     handleVewProduct,
     handleVewSingleProduct,
-    handleCreateProduct
+    handleCreateProduct,
+    handleDeleteProduct
 }
