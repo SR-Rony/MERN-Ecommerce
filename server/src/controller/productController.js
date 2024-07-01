@@ -2,7 +2,7 @@ const createError = require("http-errors")
 const  slugify = require("slugify")
 const Product = require("../models/productModel")
 const { successRespons } = require("./respones.controller")
-const { createProductServices } = require("../services/productServices")
+const { createProductServices, updateProductServices } = require("../services/productServices")
 const deleteImg = require("../helper/deleteImages")
 
 // handle GET product
@@ -60,11 +60,10 @@ const handleVewSingleProduct = async(req,res,next)=>{
     }
 }
 
-// hanle create product
+// handle create product
 const handleCreateProduct = async (req,res,next)=>{
     try {
         const {name,description,price,quantity,shipping,categoryId}=req.body
-        console.log(req.body);
         const image = req.file?.path; //images path
         if(!image){
             throw createError(409,"images file is require")
@@ -87,6 +86,23 @@ const handleCreateProduct = async (req,res,next)=>{
 
 
 
+}
+
+// handle create product
+const handleUpdateProduct = async (req,res,next)=>{
+    try {
+        const {slug}=req.params
+        const updateProduct = await updateProductServices(req,slug)
+        console.log('updatedsfd',updateProduct);
+        // success response message
+        return successRespons(res,{
+            statusCode:201,
+            message:'Product update successfull',
+            paylod:updateProduct
+        })
+    } catch (error) {
+        next(error)
+    }
 }
 
 // handle delete product
@@ -117,5 +133,6 @@ module.exports = {
     handleVewProduct,
     handleVewSingleProduct,
     handleCreateProduct,
+    handleUpdateProduct,
     handleDeleteProduct
 }
