@@ -28,9 +28,9 @@ const createProductServices = async (name,description,price,quantity,shipping,ca
 
 // create category service
 const updateProductServices = async (req,slug)=>{
-
+    try {
     let updateOptions = {new:true,runValidation:true,context:"query"}
-    const product = await Product({slug:slug})
+    const product = await Product.findOne({slug:slug})
     let updates ={} //update object
 
     // input req.body all key
@@ -41,6 +41,10 @@ const updateProductServices = async (req,slug)=>{
         }
     }
 
+    if(updates.name){
+        updates.slug = slugify(updates.name)
+    }
+
     const updateImage = req.file?.path;// images path
     if(updateImage){
         if(updateImage.size > 1024 * 1024 * 2){
@@ -48,7 +52,7 @@ const updateProductServices = async (req,slug)=>{
         }
         
         updates.image=updateImage //images update
-        deleteImg(product.image) //images delete
+        product.image!=="default.png" && deleteImg(product.image) //images delete
     }
     // user update
     const productUpdate = await Product.findOneAndUpdate({slug},updates,updateOptions)
@@ -59,6 +63,10 @@ const updateProductServices = async (req,slug)=>{
 
 
     return productUpdate
+        
+    } catch (error) {
+        throw error
+    }
 }
 
 

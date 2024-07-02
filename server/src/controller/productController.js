@@ -8,10 +8,19 @@ const deleteImg = require("../helper/deleteImages")
 // handle GET product
 const handleVewProduct = async(req,res,next)=>{
     try {
+        const search = req.query.search || "";
         const page = parseInt(req.query.page) || 1 ;
-        const limit = parseInt(req.query.page) || 4
+        const limit = parseInt(req.query.page) || 4;
 
-        const allProducts = await Product.find()
+        const searchRegexp = new RegExp('.*'+search+'.*',"i")
+        // user filter
+        const filter = {
+            $or : [
+                {name: {$regex:searchRegexp}},
+            ]
+        }
+
+        const allProducts = await Product.find(filter)
         .populate('categoryId')
         .skip((page-1)*limit)
         .limit(limit)
@@ -20,7 +29,9 @@ const handleVewProduct = async(req,res,next)=>{
         if(!allProducts){
             throw createError(404,'Product not found')
         }
-        const count = await Product.find({}).countDocuments()
+
+
+        const count = await Product.find(filter).countDocuments()
          // success response message
          return successRespons(res,{
             statusCode:201,

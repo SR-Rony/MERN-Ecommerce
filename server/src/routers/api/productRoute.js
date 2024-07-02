@@ -16,7 +16,7 @@ productRoute.get("/:slug",handleVewSingleProduct)
 productRoute.post("/",isLoggedIn,uploadProductImage.single("image"),validateProduct,runValidation,isAdmin,handleCreateProduct)
 
 //UPDATE localhost:400/api/v1/product/slug
-productRoute.put("/:slug",handleUpdateProduct)
+productRoute.put("/:slug",isLoggedIn,uploadProductImage.single("image"),runValidation,isAdmin,handleUpdateProduct)
 
 //DELETE localhost:400/api/v1/product/slug
 productRoute.delete("/:slug",isLoggedIn,isAdmin,handleDeleteProduct)
