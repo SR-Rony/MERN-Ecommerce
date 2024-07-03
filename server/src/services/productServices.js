@@ -2,6 +2,7 @@ const createError = require("http-errors")
 const  slugify = require("slugify")
 const Product = require("../models/productModel")
 const deleteImg = require("../helper/deleteImages")
+const cloudinary = require("../config/cloudinary")
 
 // create category service
 const createProductServices = async (name,description,price,quantity,shipping,categoryId,image)=>{
@@ -9,6 +10,13 @@ const createProductServices = async (name,description,price,quantity,shipping,ca
     const productExists = await Product.exists({name:name})
         if(productExists){
             throw createError(409,'Product name already exists')
+        }
+        
+        if(image){
+            const respons = await cloudinary.uploader.upload(image,{
+                folder:"mernEcommerce/product"
+            })
+            image = respons.secure_url
         }
 
         const newProduct = await Product.create({

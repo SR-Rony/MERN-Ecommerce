@@ -87,7 +87,7 @@ const handleUserVerify = async (req,res,next)=>{
             const image = decoded.image
             if(image){
                 const respons = await cloudinary.uploader.upload(image,{
-                    folder:"mernEcommerce"
+                    folder:"mernEcommerce/users"
                 })
                 decoded.image = respons.secure_url
             }
