@@ -9,6 +9,7 @@ const { createJsonWebToken } = require("../helper/jsonwebtoken");
 const { jwtActivationKey, clientUrl, } = require("../secrit");
 const emailNodmailer = require("../helper/email");
 const { findUserService, forgetPasswordService, resetPasswordService, UserActionService, updatePasswordService } = require("../services/userServices");
+const cloudinary  = require("../config/cloudinary");
 
 
 //============== user register ============//
@@ -82,6 +83,16 @@ const handleUserVerify = async (req,res,next)=>{
             if(userExists){
                 throw createError(409,"user with this email already exists.please login")
             }
+
+            const image = decoded.image
+            if(image){
+                const respons = await cloudinary.uploader.upload(image,{
+                    folder:"mernEcommerce"
+                })
+                decoded.image = respons.secure_url
+            }
+
+
             // new user is create
             await User.create(decoded)
             

@@ -6,9 +6,9 @@ const { userUplodDir, productUplodDir, fileSize, fileTypes } = require("../confi
 
 // userr images upload storage
 const userStorage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, userUplodDir)
-    },
+    // destination: function (req, file, cb) {
+    //   cb(null, userUplodDir)
+    // },
     filename: function (req, file, cb) {
         // const extname=path.extname(file.originalname)
       // const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
@@ -18,9 +18,9 @@ const userStorage = multer.diskStorage({
 
   // product images upload storage
   const productStorage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, productUplodDir)
-    },
+    // destination: function (req, file, cb) {
+    //   cb(null, productUplodDir)
+    // },
     filename: function (req, file, cb) {
         // const extname=path.extname(file.originalname)
       // const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
