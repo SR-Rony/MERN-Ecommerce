@@ -10,6 +10,7 @@ const { jwtActivationKey, clientUrl, } = require("../secrit");
 const emailNodmailer = require("../helper/email");
 const { findUserService, forgetPasswordService, resetPasswordService, UserActionService, updatePasswordService } = require("../services/userServices");
 const cloudinary  = require("../config/cloudinary");
+const {cloudinaryHelper} = require("../helper/cloudinaryHelper");
 
 
 //============== user register ============//
@@ -284,7 +285,17 @@ const handleDeleteUser = async(req,res,next)=>{
     const id = req.params.id;
     const option = {password:0}
     const user = await findWithIdService(User,id,option)
-    //    delete user
+
+    if(user && user.image){
+        const cloudImageId = await cloudinaryHelper(user.image);
+        console.log(cloudImageId);
+        const {result} = await cloudinary.uploader.destroy(`mernEcommerce/users/${cloudImageId}`)
+        if(result!=="ok"){
+            throw new Error('cloudinary user image is not delete.Please try again')
+        }
+    }
+
+    //delete user
        await User.findByIdAndDelete({_id:id,isAdmin:false})
 
     //======= user delete and success respons fun () =======//
