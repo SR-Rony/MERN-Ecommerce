@@ -10,7 +10,7 @@ const app = express();
 // server rate limite
 const rateLimiter = rateLimit({
     window : 1* 60 * 1000 ,//1 minute
-    max : 5,
+    max : 10,
     message : "sorry please try again"
 
 })

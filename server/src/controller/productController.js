@@ -4,6 +4,8 @@ const Product = require("../models/productModel")
 const { successRespons } = require("./respones.controller")
 const { createProductServices, updateProductServices } = require("../services/productServices")
 const deleteImg = require("../helper/deleteImages")
+const { cloudinaryHelper, deleteCloudinaryImage } = require("../helper/cloudinaryHelper")
+const cloudinary = require("../config/cloudinary")
 
 // handle GET product
 const handleVewProduct = async(req,res,next)=>{
@@ -120,9 +122,17 @@ const handleUpdateProduct = async (req,res,next)=>{
 const handleDeleteProduct = async(req,res,next)=>{
     try {
         const {slug} = req.params
-        const deleteProduct = await Product.findOneAndDelete({slug:slug})
+        const deleteProduct = await Product.findOneAndDelete({slug:slug});
+
         if(!deleteProduct){
             throw createError(404,'Product not found')
+        }
+
+        if(deleteProduct && deleteProduct.image){
+
+            const cloudImageId = await cloudinaryHelper(deleteProduct.image);
+            // cloudinary image delete helper
+            await deleteCloudinaryImage("mernEcommerce/product",cloudImageId,"Product")
         }
         
         if(deleteProduct.image){
