@@ -1,8 +1,12 @@
 import React from 'react'
+import PageTitle from '../components/PageTitle'
 
 const Login = () => {
   return (
-    <div>Login</div>
+    <div>
+      <PageTitle title = 'Login'/>
+      <div>Login</div>
+    </div>
   )
 }
 

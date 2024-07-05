@@ -1,8 +1,12 @@
 import React from 'react'
+import PageTitle from '../components/PageTitle'
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <div>
+      <PageTitle title="Home"/>
+      Home
+    </div>
   )
 }
 
