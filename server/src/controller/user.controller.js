@@ -175,7 +175,6 @@ const handleUpdateUser = async(req,res,next)=>{
 
     // input req.body all key
     for(let key in req.body){
-        console.log(key);
         if(["name","password","address","phone",].includes(key)){
             updates[key]=req.body[key]
         }
@@ -185,21 +184,32 @@ const handleUpdateUser = async(req,res,next)=>{
     }
 
     const updateImage = req.file?.path;// images path
+    console.log(updateImage);
     if(updateImage){
         if(updateImage.size > 1024 * 1024 * 2){
             throw createError(409,"file to large. It must be less than  2MB")
         }
+        const respons = await cloudinary.uploader.upload(updateImage,{
+            folder:"mernEcommerce/users"
+        })
+        updates.image = respons.secure_url
         
-        updates.image=updateImage //images update
-        user.image!=="default.png" && deleteImg(user.image) //images delete
+        // updates.image=updateImage //images update
     }
     // user update
     const userUpdate = await User.findByIdAndUpdate(updateId,updates,updateOptions)
     .select("-password")
 
     if(!userUpdate){
-        throw createError(404,"User not exsist")
+        throw createError(404,"User was not update")
     }
+    // delete cloudinary image
+    if(user.image){
+        const cloudImageId = await cloudinaryHelper(user.image);
+        // cloudinary image delete helper
+        await deleteCloudinaryImage("mernEcommerce/users",cloudImageId,"User")
+    }
+    // user.image!=="default.png" && deleteImg(user.image) //images delete
 
     //======= user delete and success respons fun () =======//
     return successRespons(res,{
