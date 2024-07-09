@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* .focus-visible\:ring-offset-transparent:focus-visible{
+    background-color: white;
+    border: 0px ;
+} */

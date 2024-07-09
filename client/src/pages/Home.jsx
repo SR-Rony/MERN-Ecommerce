@@ -3,9 +3,11 @@ import PageTitle from '../components/PageTitle'
 
 const Home = () => {
   return (
-    <div>
+    <div className='mt-40'>
       <PageTitle title="Home"/>
-      Home
+      <div className="container">
+        i am home pages
+      </div>
     </div>
   )
 }
