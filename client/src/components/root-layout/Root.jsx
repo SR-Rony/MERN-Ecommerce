@@ -2,13 +2,19 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 import Navbar from '../navbar/Navbar'
 import Footer from '../footer/Footer'
+import Sightbar from '../sightbar/Sightbar'
 
 const Root = () => {
   return (
-    <div>
+    <div className='grid grid-cols-12 gap-2'>
+      <div className="col-span-2">
+        <Sightbar/>
+      </div>
+      <div className="col-span-10">
         <Navbar/>
         <Outlet/>
         <Footer/>
+      </div>
     </div>
   )
 }

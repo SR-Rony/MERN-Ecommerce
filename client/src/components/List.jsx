@@ -1,9 +1,8 @@
-import React,  from 'react'
 import { twMerge } from 'tailwind-merge'
 
-const List = ({clasaName,children}) => {
+const List = ({classaName,children}) => {
   return (
-    <ul className={twMerge('flex',clasaName)}>{children}</ul>
+    <ul className={twMerge('',classaName)}>{children}</ul>
   )
 }
 
