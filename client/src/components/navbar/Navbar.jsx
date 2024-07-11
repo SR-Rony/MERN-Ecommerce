@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 import { FaRegCircleUser  } from "react-icons/fa6";
 const Navbar = () => {
   return (
-    <nav className='py-5 bg-slate-600 text-white fixed z-50 w-full top-0 left-0 shadow-lg'>
+    <nav className='py-5 bg-black text-white fixed z-50 w-full top-0 left-0 shadow-lg'>
         <div className="container mx-auto px-2">
           <div className="grid grid-cols-12 gap-5 items-center">
             <div className="order-1 col-span-6 md:col-span-3 relative">
