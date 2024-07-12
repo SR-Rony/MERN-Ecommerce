@@ -33,24 +33,6 @@ const Banner = () => {
             <ul style={{ margin: "0px" }}> {dots} </ul>
           </div>
         ),
-
-
-        // customPaging: () => (
-        //   <div
-        //     style={{
-        //       width: "0px",
-        //       padding:"7px",
-        //       borderRadius:'50%',
-        //       background:'transparent',
-        //       border: "1px blue solid"
-              
-        //     }}
-        //   >
-        //   </div>
-        // ),
-
-
-
         customPaging: i => (
           <div
           style={
@@ -72,10 +54,6 @@ const Banner = () => {
           >
           </div>
         ),
-
-       
-
-
        
       };
   return (

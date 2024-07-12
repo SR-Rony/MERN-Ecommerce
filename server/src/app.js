@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors')
 const morgan = require('morgan')
 const cookieParser = require("cookie-parser")
 const createError = require('http-errors')
@@ -16,6 +17,7 @@ const rateLimiter = rateLimit({
 })
 
 // middlewares
+app.use(cors())
 app.use(cookieParser())
 app.use(rateLimiter)
 app.use(morgan("dev"))
