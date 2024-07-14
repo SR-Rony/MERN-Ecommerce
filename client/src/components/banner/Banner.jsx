@@ -59,19 +59,19 @@ const Banner = () => {
   return (
     <Slider {...settings}>
     <div>
-        <Image className="h-96" src={slider} alt='banner-img'/>
+        <Image className="h-[500px]" src={slider} alt='banner-img'/>
+    </div>
+    <div>
+    <Image className="h-[500px]" src={slider} alt='banner-img'/>
+    </div>
+    <div>
+    <Image className="h-[500px]" src={slider} alt='banner-img'/>
     </div>
     <div>
     <Image className="h-96" src={slider} alt='banner-img'/>
     </div>
     <div>
-    <Image className="h-96" src={slider} alt='banner-img'/>
-    </div>
-    <div>
-    <Image className="h-96" src={slider} alt='banner-img'/>
-    </div>
-    <div>
-    <Image className="h-96" src={slider} alt='banner-img'/>
+    <Image className="h-[500px]" src={slider} alt='banner-img'/>
     </div>
   </Slider>
   )

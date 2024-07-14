@@ -19,6 +19,7 @@ const Login = () => {
   }
 
   const handleSubmit = async ()=>{
+    console.log('click');
     try{
       setUser(userInfo)
       let data = await axios.post("http://localhost:4000/api/v1/auth/login",{
@@ -45,7 +46,7 @@ const Login = () => {
             <div className='my-5'>
               <input className='py-2 px-4 ring-1 rounded-full ring-secoundary w-1/2' type="password" name='password' onChange={handleChange} value={password} placeholder='Inter your Password' />
             </div>
-            <button onClick={handleSubmit} className='w-1/2 py-2 rounded-full font-semibold text-xl bg-secoundary text-white'>Login</button>
+            <button onClick={()=>handleSubmit()} className='w-1/2 py-2 rounded-full font-semibold text-xl bg-secoundary text-white'>Login</button>
           </div>
           <Paragraph text="Create your Ecommerce acount" link=' Sing Up' to='/singup'/>
         </div>
