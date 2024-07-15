@@ -8,12 +8,12 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div className='bg-black py-20'>
+    <footer className='bg-black py-20 mt-5'>
       <div className="container mx-auto px-2">
         <Heading className="text-center text-white mb-7 text-5xl" tag='h2' text="E-commerce"/>
         <div className="grid grid-cols-12 text-white">
-          <div className="col-span-3">
-            <Heading className='mb-5' tag='h3' text='CONTACT'/>
+          <div className="col-span-12 md:col-span-6 xl:col-span-3 text-center md:text-start my-5 md:my-0">
+            <Heading className='mb-5 border-b-2 border-primary pb-2 inline-block' tag='h3' text='CONTACT'/>
             <List>
               <ListItem className='my-2' text=' House#42, Road-3/A, Dhanmondi,'/>
               <ListItem className='my-2' text='Dhaka-1209, Bangladesh'/>
@@ -21,8 +21,8 @@ const Footer = () => {
               <ListItem text='Phone: 09613828606'/>
             </List>
           </div>
-          <div className="col-span-3">
-          <Heading className='mb-5' tag='h3' text='CUSTOMER'/>
+          <div className="col-span-12 md:col-span-6 xl:col-span-3 text-center md:text-start my-5 md:my-0">
+          <Heading className='mb-5 border-b-2 border-primary pb-2 inline-block' tag='h3' text='CUSTOMER'/>
             <List>
               <ListItem className='my-2' text='Account'/>
               <ListItem className='my-2' text='Cart'/>
@@ -32,8 +32,8 @@ const Footer = () => {
               <ListItem text='FAQ'/>
             </List>
           </div>
-          <div className="col-span-3">
-          <Heading className='mb-5' tag='h3' text='INFORMATION'/>
+          <div className="col-span-12 md:col-span-6 xl:col-span-3 text-center md:text-start my-5 md:my-0">
+          <Heading className='mb-5 border-b-2 border-primary pb-2 inline-block' tag='h3' text='INFORMATION'/>
             <List>
               <ListItem className='my-2' text='About us'/>
               <ListItem className='my-2' text='Contact Us'/>
@@ -43,8 +43,8 @@ const Footer = () => {
               <ListItem text='Secured Payment'/>
             </List>
           </div>
-          <div className="col-span-3">
-            <Heading className='mb-5' tag='h3' text='MOBILE APPS'/>
+          <div className="col-span-12 md:col-span-6 xl:col-span-3 text-center md:text-start my-5 md:my-3 lg:my-0">
+            <Heading className='mb-7 border-b-2 border-primary pb-2 inline-block' tag='h3' text='MOBILE APPS'/>
             <div>
               <div className="inline-flex cursor-pointer items-center gap-2 bg-secoundary p-3 rounded-md">
                 <RiGooglePlayLine className="text-xl"/>
@@ -63,7 +63,7 @@ const Footer = () => {
           <p>© 2024 <Link className="text-primary">Ecommerce</Link> - All Rights Reserved</p>
         </div>
       </div>
-    </div>
+    </footer>
   )
 }
 

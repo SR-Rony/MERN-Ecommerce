@@ -4,8 +4,10 @@ import "slick-carousel/slick/slick-theme.css";
 import slider from '../../assets/slider.jpg'
 import Image from '../image/Image';
 import { useState } from "react";
+const banerImage = [slider,slider,slider,slider,slider]
 
 const Banner = () => {
+  let [banner, setBanner] = useState(banerImage);
   let [dotActive, setDotActive] = useState(0);
     let settings = {
         dots: true,
@@ -19,6 +21,20 @@ const Banner = () => {
         autoplaySpeed: 2000,
         slidesToShow: 1,
         slidesToScroll: 1,
+        responsive: [
+          {
+            breakpoint: 600,
+            settings: {
+              dots:false
+            }
+          },
+          {
+            breakpoint: 480,
+            settings: {
+              dots:false
+            }
+          }
+        ],
         appendDots: dots => (
           <div
             style={{
@@ -58,21 +74,11 @@ const Banner = () => {
       };
   return (
     <Slider {...settings}>
-    <div>
-        <Image className="h-[500px]" src={slider} alt='banner-img'/>
-    </div>
-    <div>
-    <Image className="h-[500px]" src={slider} alt='banner-img'/>
-    </div>
-    <div>
-    <Image className="h-[500px]" src={slider} alt='banner-img'/>
-    </div>
-    <div>
-    <Image className="h-96" src={slider} alt='banner-img'/>
-    </div>
-    <div>
-    <Image className="h-[500px]" src={slider} alt='banner-img'/>
-    </div>
+      {banner.map((item,index)=>(
+        <div key={index}>
+        <Image className="h-80 md:h-[500px]" src={slider} alt='banner-img'/>
+        </div>
+      ))}
   </Slider>
   )
 }
