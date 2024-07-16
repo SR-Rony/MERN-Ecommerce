@@ -3,6 +3,7 @@ import Heading from '../components/Heading'
 import PageTitle from '../components/PageTitle'
 import Paragraph from '../components/Paragraph'
 import axios from 'axios'
+import Sightbar from '../components/sightbar/Sightbar'
 
 
 const Login = () => {

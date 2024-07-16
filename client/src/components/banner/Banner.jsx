@@ -1,10 +1,16 @@
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import slider from '../../assets/slider.jpg'
+import slider1 from '../../assets/slider1.jpg'
+import slider2 from '../../assets/slider2.jpg'
+import slider3 from '../../assets/slider3.jpg'
+import slider4 from '../../assets/slider4.jpg'
+import slider5 from '../../assets/slider8.jpg'
+import slider6 from '../../assets/slider6.jpg'
+import slider7 from '../../assets/slider7.jpg'
 import Image from '../image/Image';
 import { useState } from "react";
-const banerImage = [slider,slider,slider,slider,slider]
+const banerImage = [slider1,slider6,slider7,slider4,slider5,slider3,slider2]
 
 const Banner = () => {
   let [banner, setBanner] = useState(banerImage);
@@ -76,7 +82,7 @@ const Banner = () => {
     <Slider {...settings}>
       {banner.map((item,index)=>(
         <div key={index}>
-        <Image className="h-80 md:h-[500px]" src={slider} alt='banner-img'/>
+        <Image className="h-96 md:h-[500px]" src={item} alt='banner-img'/>
         </div>
       ))}
   </Slider>

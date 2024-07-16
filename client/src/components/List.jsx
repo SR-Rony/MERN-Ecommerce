@@ -1,8 +1,8 @@
 import { twMerge } from 'tailwind-merge'
 
-const List = ({classaName,children}) => {
+const List = ({className,children,key}) => {
   return (
-    <ul className={twMerge('',classaName)}>{children}</ul>
+    <ul key={key} className={className}>{children}</ul>
   )
 }
 

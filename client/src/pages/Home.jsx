@@ -4,7 +4,7 @@ import Category from '../components/category/Category'
 
 const Home = () => {
   return (
-    <div className='mt-24'>
+    <div className='mt-36'>
       <PageTitle title="Home"/>
         <Banner/>
         <Category/>

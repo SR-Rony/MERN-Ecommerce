@@ -1,19 +1,69 @@
+import { useState } from "react"
 import List from "../List"
 import ListItem from "../ListItem"
+import { Button, Drawer, DrawerBody, DrawerClose, DrawerContent } from 'keep-react'
+import Paragraph from "../Paragraph"
+import { FaBars} from "react-icons/fa";
+import Heading from "../Heading"
+import { RxCross1 } from "react-icons/rx";
+import { TfiAngleRight } from "react-icons/tfi";
+
+const listArray = ['Bags','Children','mans','Shoes','Bags','Children','mans','Shoes']
 
 
 const Sightbar = () => {
+  const [list,useList]= useState(listArray)
+  const [isOpen, setIsOpen] = useState(false)
+  const [position, setPosition] = useState("left")
   return (
-    <div className='w-full h-screen mt-20 py-5 px-2 shadow-lg'>
-        <List>
-            <ListItem className='border-b-2 border-secoundary p-2 rounded-md my-4 hover:bg-secoundary hover:text-white duration-100 ' text='Child'/>
-            <ListItem className='border-b-2 border-secoundary p-2 rounded-md my-4 hover:bg-secoundary hover:text-white duration-100 ' text='Child'/>
-            <ListItem className='border-b-2 border-secoundary p-2 rounded-md my-4 hover:bg-secoundary hover:text-white duration-100 ' text='Child'/>
-            <ListItem className='border-b-2 border-secoundary p-2 rounded-md my-4 hover:bg-secoundary hover:text-white duration-100 ' text='Child'/>
-            <ListItem className='border-b-2 border-secoundary p-2 rounded-md my-4 hover:bg-secoundary hover:text-white duration-100 ' text='Child'/>
-            <ListItem className='border-b-2 border-secoundary p-2 rounded-md my-4 hover:bg-secoundary hover:text-white duration-100 ' text='Child'/>
-        </List>
-    </div>
+
+
+    <>
+      <div className="flex items-center">
+      <div onClick={() => {
+              setIsOpen(!isOpen)
+              setPosition('left')
+            }} 
+        className='text-2xl gap-2 ring-2 ring-primary px-3 py-1 inline-flex cursor-pointer rounded-md items-center'>
+        <FaBars />
+        <Paragraph text="All Category"/>
+      </div>
+      </div>
+      <Drawer isOpen={isOpen} onOpenChange={setIsOpen} position={position}>
+        <DrawerBody>
+          <DrawerContent>
+            <div className="mx-10 py-20 lg:px-0 text-white relative">
+              <Heading tag='h2' text='Hello SR' className='border-b-2 border-primary pb-4'/>
+              <List className='py-5'>
+                {list.map((item,index)=>(
+                  <div className="flex justify-between items-center p-3 hover:bg-secoundary my-4 rounded-md duration-100 cursor-pointer" key={index}>
+                    <ListItem className='' text={item}/>
+                    <TfiAngleRight/>
+                  </div>
+                ))}
+                </List>
+              <DrawerClose asChild>
+                <Button className="text-white absolute top-5 right-0 text-2xl"><RxCross1/></Button>
+              </DrawerClose>
+            </div>
+          </DrawerContent>
+        </DrawerBody>
+      </Drawer>
+    </>
+
+
+
+
+
+
+
+    // <div className='mt-20 py-5 w-full px-2'>
+    //   {list.map((item,index)=>(
+    //     <List key={index}>
+    //         <ListItem className='border-b-2 border-secoundary p-2 rounded-md my-4 hover:bg-secoundary hover:text-white duration-100 ' text={item}/>
+    //     </List>
+    //   ))}
+    // </div>
   )
 }
 
