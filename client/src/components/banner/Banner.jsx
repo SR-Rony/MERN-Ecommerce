@@ -23,8 +23,8 @@ const Banner = () => {
         arrows:false,
         infinite: true,
         autoplay: true,
-        speed: 1000,
-        autoplaySpeed: 2000,
+        speed: 2000,
+        autoplaySpeed: 4000,
         slidesToShow: 1,
         slidesToScroll: 1,
         responsive: [
@@ -82,7 +82,7 @@ const Banner = () => {
     <Slider {...settings}>
       {banner.map((item,index)=>(
         <div key={index}>
-        <Image className="h-96 md:h-[500px]" src={item} alt='banner-img'/>
+        <Image className="h-80 md:h-[500px]" src={item} alt='banner-img'/>
         </div>
       ))}
   </Slider>

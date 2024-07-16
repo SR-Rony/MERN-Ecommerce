@@ -24,9 +24,9 @@ const Sightbar = () => {
               setIsOpen(!isOpen)
               setPosition('left')
             }} 
-        className='text-2xl gap-2 ring-2 ring-primary px-3 py-1 inline-flex cursor-pointer rounded-md items-center'>
+        className='text-2xl gap-2 sm:ring-2 ring-primary px-3 py-1 inline-flex cursor-pointer rounded-md items-center text-white'>
         <FaBars />
-        <Paragraph text="All Category"/>
+        <Paragraph className='hidden md:block' text="All Category"/>
       </div>
       </div>
       <Drawer isOpen={isOpen} onOpenChange={setIsOpen} position={position}>
@@ -37,7 +37,7 @@ const Sightbar = () => {
               <List className='py-5'>
                 {list.map((item,index)=>(
                   <div className="flex justify-between items-center p-3 hover:bg-secoundary my-4 rounded-md duration-100 cursor-pointer" key={index}>
-                    <ListItem className='' text={item}/>
+                    <Paragraph text={item}/>
                     <TfiAngleRight/>
                   </div>
                 ))}

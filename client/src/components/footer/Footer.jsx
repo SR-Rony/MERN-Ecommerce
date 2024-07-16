@@ -11,7 +11,7 @@ const Footer = () => {
     <footer className='bg-black py-20 mt-5'>
       <div className="container mx-auto px-2">
         <Heading className="text-center text-white mb-7 text-5xl" tag='h2' text="E-commerce"/>
-        <div className="grid grid-cols-12 text-white">
+        <div className="grid grid-cols-12 mx-auto justify-around text-white">
           <div className="col-span-12 md:col-span-6 xl:col-span-3 text-center md:text-start my-5 md:my-0">
             <Heading className='mb-5 border-b-2 border-primary pb-2 inline-block' tag='h3' text='CONTACT'/>
             <List>

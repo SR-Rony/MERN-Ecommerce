@@ -61,7 +61,7 @@ const Category = () => {
             <div className="slider-container flex-row justify-center">
         <Slider {...settings}>
           {array.map((item,index)=>(
-              <div className=" text-center" key={index}>
+              <div className=" text-center cursor-pointer ring-2 ring-secoundary" key={index}>
               <Image className='w-24 mx-auto' src={item}/>
               <Paragraph text='Mans Clothing'/>
           </div>
