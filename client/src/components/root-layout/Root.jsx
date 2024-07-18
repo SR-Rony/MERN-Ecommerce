@@ -14,21 +14,26 @@ const Root = () => {
       <Navbar/>
       <Outlet/>
       <Footer/>
-      <div className='fixed bottom-0 left-0 w-full flex justify-between shadow-md bg-gray-900 items-center sm:hidden text-white py-1 pr-3'>
+      <div className='fixed bottom-0 left-0 w-full flex items-center justify-between shadow-md bg-gray-900 items-center sm:hidden text-white py-1 pr-3'>
         <div>
           <Sightbar/>
+          <span>Category</span>
         </div>
-        <Link className='text-2xl'>
-          <BsChat/>
+        <Link>
+          <BsChat className='text-2xl mx-auto'/>
+          <span>Message</span>
         </Link>
-        <Link to='/' className='text-2xl'>
-          <FaHome/>
+        <Link to='/'>
+          <FaHome className='text-2xl mx-auto' />
+          <span>Home</span>
         </Link>
-        <Link className='text-2xl'>
-          <IoMdCall/>
+        <Link to='/contact' >
+          <IoMdCall className='text-2xl mx-auto' />
+          <span>Contact</span>
         </Link>
-        <Link to='/login' className='text-2xl'>
-          <FaRegCircleUser/>
+        <Link to='/login'>
+          <FaRegCircleUser className='text-2xl mx-auto'/>
+          <span>User</span>
         </Link>
       </div>
     </div>

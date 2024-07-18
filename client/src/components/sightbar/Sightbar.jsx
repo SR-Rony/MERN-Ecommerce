@@ -24,7 +24,7 @@ const Sightbar = () => {
               setIsOpen(!isOpen)
               setPosition('left')
             }} 
-        className='text-2xl gap-2 sm:ring-2 ring-primary px-3 py-1 inline-flex cursor-pointer rounded-md items-center text-white'>
+        className='mx-auto sm:mx-0 text-2xl gap-2 sm:ring-2 ring-primary sm:px-3 sm:py-1 inline-flex cursor-pointer rounded-md items-center text-white'>
         <FaBars />
         <Paragraph className='hidden md:block' text="All Category"/>
       </div>
