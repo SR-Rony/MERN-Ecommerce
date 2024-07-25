@@ -81,7 +81,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="text-center text-white mt-16 text-xl">
+        <div className="text-center mb-20 md:mb-0 text-white mt-16 text-xl">
           <p>© 2024 <Link className="text-primary">Ecommerce</Link> - All Rights Reserved</p>
         </div>
       </div>
