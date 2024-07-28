@@ -4,8 +4,9 @@ import Paragraph from '../components/Paragraph'
 import axios from 'axios'
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom'
-import { Button,Spinner } from "keep-react";
+import { Spinner } from "keep-react";
 import { useState } from 'react';
+import {toast } from 'react-toastify';
 
 
 
@@ -28,15 +29,47 @@ const Login = () => {
             password:values.password
           })
           .then(()=>{
+            console.log(data);
+            setLoding(false)
+            toast.success('Success user', {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              });
             navigate('/')
           }).catch((error)=>{
             setLoding(false)
+            let errorMessage =error.response.data.message
             console.log(error);
+            // if(error.message.includs())
+            toast.error(errorMessage, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              });
           })
-          console.log(data);
-        }catch(err){
+        }catch(error){
           setLoding(false)
-          console.log(err);
+          toast.error('network error', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
         }
     },
   });
