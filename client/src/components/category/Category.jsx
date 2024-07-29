@@ -56,8 +56,8 @@ const Category = () => {
 
 
   return (
-    <section className="py-5 mt-5 shadow-lg bg-white">
-        <div className="container mx-auto px-2">
+    <section className="mt-5">
+        <div className="container mx-auto px-2 py-5 shadow-lg bg-white">
             <div className="slider-container flex-row justify-center">
         <Slider {...settings}>
           {array.map((item,index)=>(

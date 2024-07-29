@@ -79,13 +79,17 @@ const Banner = () => {
        
       };
   return (
-    <Slider {...settings}>
-      {banner.map((item,index)=>(
-        <div key={index}>
-        <Image className="h-80 md:h-[500px]" src={item} alt='banner-img'/>
-        </div>
-      ))}
-  </Slider>
+    <div>
+      <div className="container mx-auto">
+        <Slider {...settings}>
+          {banner.map((item,index)=>(
+            <div key={index}>
+            <Image className="h-80 md:h-[500px]" src={item} alt='banner-img'/>
+            </div>
+          ))}
+        </Slider>
+      </div>
+    </div>
   )
 }
 
