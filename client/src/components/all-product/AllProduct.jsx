@@ -48,7 +48,7 @@ const AllProduct = () => {
                     <Product/>
                 </div>
             </div>
-            <div className='mt-5 text-center'><Paragraph className='py-2 px-7 ring-2 ring-secoundary text-center text-base inline-flex rounded-full cursor-pointer font-bold text-secoundary' text='LOAD MORE'/></div>
+            <div className='mt-5 text-center'><Paragraph className='py-2 px-5 ring-2 ring-secoundary text-center text-base inline-flex rounded-full cursor-pointer font-bold text-secoundary' text='LOAD MORE'/></div>
         </div>
     </div>
   )

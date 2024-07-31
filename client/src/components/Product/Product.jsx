@@ -2,10 +2,19 @@ import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } fro
 import image from '../../assets/product/product.jpg'
 import Image from '../image/Image'
 import Paragraph from '../Paragraph'
+import { useNavigate } from 'react-router-dom'
+
 const Product = () => {
+  let navigate = useNavigate()
+
+  const handleClick =()=>{
+    navigate('/product')
+  }
+
+
   return (
-    <Card className='group ring-1 ring-secoundary'>
-      <CardHeader className='cursor-pointer overflow-hidden'>
+    <Card onClick={handleClick} className='group ring-1 ring-secoundary cursor-pointer'>
+      <CardHeader className='overflow-hidden'>
         <Image className='group-hover:scale-105 duration-100' src={image} alt="image" />
       </CardHeader>
       <CardContent className="space-y-1">

@@ -12,6 +12,7 @@ import Error from './pages/Error';
 import Contact from './pages/Contact';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer,} from 'react-toastify';
+import Product from './pages/Product';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
       <Route path="/" element={<Root />}>
         <Route path='/' element={<Home/>}/>
         <Route path='/contact' element={<Contact/>}/>
+        <Route path='/product' element={<Product/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/singup' element={<Register/>}/>
         <Route path='*' element={<Error/>}/>
