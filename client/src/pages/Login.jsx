@@ -7,12 +7,18 @@ import { useNavigate } from 'react-router-dom'
 import { Spinner } from "keep-react";
 import { useState } from 'react';
 import {toast } from 'react-toastify';
+import {useDispatch, useSelector} from 'react-redux' 
+import { activeUser } from '../features/user/userSlice';
+
 
 
 
 const Login = () => {
   const [lodding,setLoding]= useState(false)
 
+  let userinfo = useSelector(state =>(state.user.value))
+  console.log(userinfo);
+  let dispatch = useDispatch()
   const navigate = useNavigate()
 
 
@@ -24,14 +30,17 @@ const Login = () => {
     onSubmit: async(values) => {
     try{
       setLoding(true)
-          let data = await axios.post("http://localhost:4000/api/v1/auth/login",{
+          await axios.post("http://localhost:4000/api/v1/auth/login",{
             email:values.email,
             password:values.password
           })
-          .then(()=>{
-            console.log(data);
+          .then((res)=>{
+            let message = res.data.message
+            let data = res.data.paylod
+            dispatch(activeUser(data));
+            localStorage.setItem('user',JSON.stringify(data))
             setLoding(false)
-            toast.success('Success user', {
+            toast.success(message, {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -45,8 +54,6 @@ const Login = () => {
           }).catch((error)=>{
             setLoding(false)
             let errorMessage =error.response.data.message
-            console.log(error);
-            // if(error.message.includs())
             toast.error(errorMessage, {
               position: "top-right",
               autoClose: 5000,
@@ -59,6 +66,7 @@ const Login = () => {
               });
           })
         }catch(error){
+          console.log(error);
           setLoding(false)
           toast.error('network error', {
             position: "top-right",
@@ -69,7 +77,7 @@ const Login = () => {
             draggable: true,
             progress: undefined,
             theme: "dark",
-            });
+          });
         }
     },
   });

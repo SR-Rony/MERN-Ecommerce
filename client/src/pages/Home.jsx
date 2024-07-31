@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux'
 import PageTitle from '../components/PageTitle'
 import AllProduct from '../components/all-product/AllProduct'
 import Banner from '../components/banner/Banner'
@@ -6,6 +7,10 @@ import NewProduct from '../components/new-product/NewProduct'
 import Popular from '../components/popular-product/Popular'
 
 const Home = () => {
+
+  let userInfo = useSelector(state => state.user.value)
+  console.log(userInfo);
+
   return (
     <div className='mt-32 md:mt-36'>
       <PageTitle title="Home"/>

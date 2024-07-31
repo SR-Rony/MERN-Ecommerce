@@ -29,13 +29,13 @@ const SingleProduct = () => {
                 <Heading tag='h2' text={`Women's shoes 2024 new mesh breathable dad shoes ins fashion couple sports casual shoes men and women same style wholesale`}/>
                 <Heading className='text-5xl my-5 text-primary border-b-2 border-primary pb-4' tag='h2' text='$100'/>
                 <Paragraph className='mt-5' text='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat. '/>
-                <div className='mt-10 flex gap-7'>
+                <div className='mt-10 flex gap-5'>
                     <div className='flex gap-4 items-center ring-1 ring-secoundary'>
                         <button className='ring-1 py-1 px-4 text-2xl font-bold ring-secoundary'>-</button>
                         <span className='text-2xl'>0</span>
                         <button className='ring-1 py-1 px-4 text-2xl font-bold ring-secoundary'>+</button>
                     </div>
-                    <button className='py-2 px-4 bg-primary font-bold rounded-sm flex items-center gap-2 '><FiShoppingCart/> ADD TO CART</button>
+                    <button className='p-2 bg-primary font-bold rounded-sm flex items-center gap-2 '><FiShoppingCart/> ADD TO CART</button>
                 </div>
             </div>
         </div>
