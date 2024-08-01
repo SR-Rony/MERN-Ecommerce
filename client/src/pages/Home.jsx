@@ -8,8 +8,8 @@ import Popular from '../components/popular-product/Popular'
 
 const Home = () => {
 
-  let userInfo = useSelector(state => state.user.value)
-  console.log(userInfo);
+  // let userInfo = useSelector(state => state.user.value)
+  // console.log(userInfo);
 
   return (
     <div className='mt-32 md:mt-36'>

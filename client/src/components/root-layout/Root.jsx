@@ -2,7 +2,6 @@ import { Link, Outlet } from 'react-router-dom'
 import Navbar from '../navbar/Navbar'
 import Footer from '../footer/Footer'
 import Sightbar from '../sightbar/Sightbar'
-import {FaRegHeart } from "react-icons/fa";
 import { FaRegCircleUser  } from "react-icons/fa6";
 import { FaHome } from "react-icons/fa";
 import { IoMdCall } from "react-icons/io";

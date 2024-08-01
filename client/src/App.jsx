@@ -13,18 +13,25 @@ import Contact from './pages/Contact';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer,} from 'react-toastify';
 import Product from './pages/Product';
+import Dashboard from './pages/Dashboard';
+import DashboardRoot from './components/dashboard/DashboardRoot';
 
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<Root />}>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/contact' element={<Contact/>}/>
-        <Route path='/product' element={<Product/>}/>
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/singup' element={<Register/>}/>
-        <Route path='*' element={<Error/>}/>
+      <Route>
+        <Route path="/" element={<Root />}>
+          <Route path='/' element={<Home/>}/>
+          <Route path='/contact' element={<Contact/>}/>
+          <Route path='/product' element={<Product/>}/>
+          <Route path='/login' element={<Login/>}/>
+          <Route path='/singup' element={<Register/>}/>
+          <Route path='*' element={<Error/>}/>
+        </Route>
+        <Route path='/' element={<DashboardRoot/>}>
+          <Route path='/dashboard' element={<Dashboard/>}/>
+        </Route>
       </Route>
     )
   );
