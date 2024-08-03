@@ -16,9 +16,9 @@ const Laftbar = () => {
         try {
            await axios.post('http://localhost:4000/api/v1/auth/logout')
            .then((res)=>{
-            console.log(res);
+            console.log('res error',res);
                 dispatch(activeUser(null));
-                localStorage.removeItem('user')
+                // localStorage.removeItem('user')
                 navigete('/login')
            })
             

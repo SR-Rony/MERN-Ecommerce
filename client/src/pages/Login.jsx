@@ -38,7 +38,7 @@ const Login = () => {
             let message = res.data.message
             let data = res.data.paylod
             dispatch(activeUser(data));
-            localStorage.setItem('user',JSON.stringify(data))
+            // localStorage.setItem('user',JSON.stringify(data))
             setLoding(false)
             toast.success(message, {
               position: "top-right",

@@ -29,13 +29,13 @@ const Navbar = () => {
             <div className="order-3 sm:order-2 col-span-12 sm:col-span-6 relative">
               <input className='text-base md:text-xl w-full ring-2 ring-primary py-2 px-5 text-black rounded-full focus-visible:ring-offset-transparent' placeholder='Product Search' type="text" />
               <div className="absolute bottom-1/2 translate-y-1/2 cursor-pointer right-0 text-2xl bg-primary h-full w-14 flex justify-center items-center rounded-e-full">
-                <FiSearch/>
+                <FiSearch className='font-bold'/>
               </div>
             </div>
             <div className="order-2 sm:order-3 col-span-6 sm:col-span-3 flex gap-3 md:gap-5 text-3xl justify-end  items-center">
               <Link className=''><FaRegHeart/></Link>
               <Link className=''><FiShoppingCart/></Link>
-                {userInfo.image 
+                {userInfo 
                 ?<Link to='/dashboard'>
                   <div className='w-8 h-8 ring ring-white rounded-full overflow-hidden cursor-pointer'>
                     <Image src={userInfo.image} alt='profile'/>

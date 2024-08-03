@@ -30,7 +30,7 @@ const handleLogin = async (req,res,next)=>{
         const accessToken = createJsonWebToken({user},jwtAccessKey,"5m")
 
         res.cookie("accessToken",accessToken,{
-            maxAge : 5 * 60 * 1000, //15 minutes
+            maxAge : 9 * 60 * 1000, //15 minutes
             httpOnly : true,
             secure : true,
             sameSite : "none"
@@ -69,7 +69,7 @@ const handleLogout = async (req,res,next)=>{
             message:"User logout successfully",
         })
     }catch(error){
-        next(error)
+        next('i am errorr',error)
     }
 }
 //============ user refresh token============ 

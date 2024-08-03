@@ -3,13 +3,14 @@ import img from '../../assets/product/product.jpg'
 import Heading from '../Heading'
 import Paragraph from '../Paragraph'
 import {FiShoppingCart  } from "react-icons/fi";
+import Product from '../Product/Product';
 
 
 const SingleProduct = () => {
   return (
-    <div className='mt-10 py-5'>
+    <div className='mt-10 py-10'>
         <div className="grid grid-cols-12 gap-5">
-            <div className="col-span-12 md:col-span-6 px-7">
+            <div className="col-span-12 md:col-span-6">
                <div className='p-4 ring-2 ring-secoundary'>
                 <Image src={img} alt='img'/>
                </div>
@@ -36,6 +37,29 @@ const SingleProduct = () => {
                         <button className='ring-1 py-1 px-4 text-2xl font-bold ring-secoundary'>+</button>
                     </div>
                     <button className='p-2 bg-primary font-bold rounded-sm flex items-center gap-2 '><FiShoppingCart/> ADD TO CART</button>
+                </div>
+            </div>
+        </div>
+        <div className='mt-7'>
+            <Heading className='pb-2 border-b-2 border-primary inline-block' tag='h2' text='Similar Products'/>
+            <div className='grid grid-cols-12 mt-7 gap-2'>
+                <div className='col-span-6 md:col-span-4 lg:col-span-2'>
+                    <Product/>
+                </div>
+                <div className='col-span-6 md:col-span-4 lg:col-span-2'>
+                    <Product/>
+                </div>
+                <div className='col-span-6 md:col-span-4 lg:col-span-2'>
+                    <Product/>
+                </div>
+                <div className='col-span-6 md:col-span-4 lg:col-span-2'>
+                    <Product/>
+                </div>
+                <div className='col-span-6 md:col-span-4 lg:col-span-2'>
+                    <Product/>
+                </div>
+                <div className='col-span-6 md:col-span-4 lg:col-span-2'>
+                    <Product/>
                 </div>
             </div>
         </div>
