@@ -29,11 +29,6 @@ const userRegistationValidate = [
     .withMessage("address is require")
     .isLength({min:3})
     .withMessage("address shoud be at least 3 characters long"),
-    // images validation
-    body("images")
-    .optional()
-    .isString()
-    .withMessage("images is require"),
     // phone validation
     body("phone")
     .trim()
