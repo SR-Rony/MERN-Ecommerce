@@ -9,6 +9,8 @@ import clothing from '../../assets/clothing.svg'
 import Image from "../image/Image";
 import Paragraph from "../Paragraph";
 import { useState } from "react";
+import NextArrow from "../slider-arrow/NextArrow";
+import PrevArrow from "../slider-arrow/PrevArrow";
 const imageArray = [mans,child,shoes,bag,clothing,mans,child,shoes,bag,clothing,mans,child,shoes,bag,clothing,]
 
 const Category = () => {
@@ -16,8 +18,9 @@ const Category = () => {
   const [array, setArray]=useState(imageArray)
 
     const settings = {
+      prevArrow:<PrevArrow/>,
+      nextArrow:<NextArrow/>,
         dots: false,
-        arrows:false,
         infinite: false,
         speed: 500,
         slidesToShow: 7,
@@ -27,7 +30,7 @@ const Category = () => {
           {
             breakpoint: 1024,
             settings: {
-              slidesToShow: 3,
+              slidesToShow: 4,
               slidesToScroll: 1,
               infinite: true,
               dots: false,
@@ -37,7 +40,7 @@ const Category = () => {
           {
             breakpoint: 600,
             settings: {
-              slidesToShow: 2,
+              slidesToShow: 3,
               slidesToScroll: 1,
               initialSlide: 2,
               arrows:false
@@ -46,7 +49,7 @@ const Category = () => {
           {
             breakpoint: 480,
             settings: {
-              slidesToShow: 1,
+              slidesToShow: 2,
               slidesToScroll: 1,
               arrows:false
             }
@@ -61,7 +64,7 @@ const Category = () => {
             <div className="slider-container flex-row justify-center">
         <Slider {...settings}>
           {array.map((item,index)=>(
-              <div className=" text-center cursor-pointer ring-2 ring-secoundary" key={index}>
+              <div className=" text-center cursor-pointer ring-1 ring-secoundary" key={index}>
               <Image className='w-24 mx-auto' src={item}/>
               <Paragraph text='Mans Clothing'/>
           </div>
