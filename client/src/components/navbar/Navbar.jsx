@@ -20,7 +20,7 @@ const Navbar = () => {
   // }
 
   return (
-    <nav className='pt-5 pb-3 bg-black text-white fixed z-10 w-full top-0 left-0 shadow-xl'>
+    <nav className='pt-5 pb-3 bg-black text-white fixed z-50 w-full top-0 left-0 shadow-xl'>
         <div className="container mx-auto px-2">
           <div className="grid grid-cols-12 gap-5 items-center">
             <div className="order-1 col-span-6 sm:col-span-3">

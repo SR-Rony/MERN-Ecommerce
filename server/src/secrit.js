@@ -11,7 +11,7 @@ const smtpUserName= process.env.SMTP_USERNAME
 const smtpPassword= process.env.SMTP_PASSWORD
 // const defaulUserImg = process.env.DEFAULT_USER_IMG || "public/images/user/defaul_user.png"
 const defaulUserImg ="public/images/user/defaul_user.png"
-const clientUrl =process.env.CLIENT_URL || "http://localhost:3000"
+const clientUrl =process.env.CLIENT_URL || "http://localhost:5173"
 
 
 

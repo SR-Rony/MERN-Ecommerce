@@ -13,13 +13,13 @@ import {toast } from 'react-toastify';
 
 const Register = () => {
   const [lodding,setLoding]= useState(false)
-  const [images, setImages] = useState({});
+  // const [images, setImages] = useState({});
   const navigate = useNavigate()
 
-  const handleImages =(e)=>{
-    console.log("images",e.target.files[0]);
-    setImages(e.target.files[0])
-  }
+  // const handleImages =(e)=>{
+  //   console.log("images",e.target.files[0]);
+  //   setImages(e.target.files[0])
+  // }
 
   const formik = useFormik({
     initialValues: {
@@ -28,13 +28,20 @@ const Register = () => {
       phone: '',
       address: '',
       password: '',
-      image :images
+      image:''
     },
     onSubmit: async(values) => {
+      console.log('all object',{
+        name:values.name,
+            email:values.email,
+            phone:values.phone,
+            address:values.address,
+            password:values.password,
+            image:values.image
+      });
+      
     try{
       setLoding(true)
-      console.log(values);
-      
           await axios.post("http://localhost:4000/api/v1/users/register",{
             name:values.name,
             email:values.email,
@@ -44,12 +51,12 @@ const Register = () => {
             image:values.image
           })
           .then((res)=>{
-            // let message = res.data.message
+            let message = res.data.message
             // let data = res.data.paylod
             console.log('data',res);
             
             setLoding(false)
-            toast.success("message", {
+            toast.success(message, {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -121,7 +128,7 @@ const Register = () => {
          value={formik.values.password} required placeholder='Password' />
             </div>
             <div className='my-2 md:my-5'>
-              <input className='py-2 px-4 ring-1 rounded-full ring-secoundary w-full md:w-1/2' id='image' type='file' name='image'  onChange={handleImages} value={formik.values.image}/>
+              <input className='py-2 px-4 ring-1 rounded-full ring-secoundary w-full md:w-1/2' type='file'  onChange={(e)=>formik.setFieldValue('image',e.target.files[0])}/>
             </div>
             {lodding
             ?

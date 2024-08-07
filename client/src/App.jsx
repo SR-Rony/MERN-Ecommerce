@@ -15,6 +15,7 @@ import { ToastContainer,} from 'react-toastify';
 import Product from './pages/Product';
 import Dashboard from './pages/Dashboard';
 import DashboardRoot from './components/dashboard/DashboardRoot';
+import Verify from './pages/Verify';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
           <Route path='/product' element={<Product/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/singup' element={<Register/>}/>
+          <Route path='/verify/:token' element={<Verify/>}/>
           <Route path='*' element={<Error/>}/>
         </Route>
         <Route path='/' element={<DashboardRoot/>}>

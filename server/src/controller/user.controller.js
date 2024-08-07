@@ -16,15 +16,17 @@ const {cloudinaryHelper, deleteCloudinaryImage} = require("../helper/cloudinaryH
 //============== user register ============//
 const handleRegister = async (req,res,next)=>{
     try{
-        const {name,email,password,address,phone,}=req.body;
+        const {name,email,password,address,phone,image}=req.body;
+        console.log('images file',req.body);
+        
 
-        const image = req.file?.path; //images path
-        if(!image){
-            throw createError(409,"images file is require")
-        }
-        if(image > 1024 * 1024 * 2){
-            throw createError(409,"file to large. It must be less than  2MB")
-        }
+        // const image = req?.file?.path; //images path
+        // if(!image){
+        //     throw createError(409,"images file is require")
+        // }
+        // if(image > 1024 * 1024 * 2){
+        //     throw createError(409,"file to large. It must be less than  2MB")
+        // }
         // email exisits chack
         const userExists = await User.exists({email:email})
         if(userExists){
@@ -39,7 +41,7 @@ const handleRegister = async (req,res,next)=>{
             subject:"action activation email",
             html:`
                 <h1>Hello ${name}</h1>
-                <p>please click hear to <a href="${clientUrl}/api/v1/users/register${token}" target="_blank">activet your email</a></p>
+                <p>please click hear to <a href="${clientUrl}/verify/:${token}" target="_blank">activet your email</a></p>
             `
         }
         try{
@@ -68,6 +70,8 @@ const handleUserVerify = async (req,res,next)=>{
     try{
         // user token
         const token = req.body.token;
+        console.log(token);
+        
         // token error throw
         if(!token){
             throw createError(404,"token is not found")
