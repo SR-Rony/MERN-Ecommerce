@@ -5,7 +5,7 @@ import axios from 'axios'
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom'
 import { Spinner } from "keep-react";
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {toast } from 'react-toastify';
 
 
@@ -16,10 +16,7 @@ const Register = () => {
   // const [images, setImages] = useState({});
   const navigate = useNavigate()
 
-  // const handleImages =(e)=>{
-  //   console.log("images",e.target.files[0]);
-  //   setImages(e.target.files[0])
-  // }
+  let fileRef = useRef(null)
 
   const formik = useFormik({
     initialValues: {
@@ -128,7 +125,8 @@ const Register = () => {
          value={formik.values.password} required placeholder='Password' />
             </div>
             <div className='my-2 md:my-5'>
-              <input className='py-2 px-4 ring-1 rounded-full ring-secoundary w-full md:w-1/2' type='file'  onChange={(e)=>formik.setFieldValue('image',e.target.files[0])}/>
+              <input ref={fileRef} className='py-2 px-4 ring-1 rounded-full ring-secoundary w-full md:w-1/2' type='file'  onChange={(e)=>formik.setFieldValue('image',e.target.files[0])}/>
+              {/* <button className='py-2 px-4 rounded-full ring-1 ring-secoundary' onClick={()=>{fileRef.current.click()}}>Image Upload</button> */}
             </div>
             {lodding
             ?

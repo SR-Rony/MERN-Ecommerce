@@ -16,24 +16,25 @@ const {cloudinaryHelper, deleteCloudinaryImage} = require("../helper/cloudinaryH
 //============== user register ============//
 const handleRegister = async (req,res,next)=>{
     try{
-        const {name,email,password,address,phone,image}=req.body;
-        console.log('images file',req.body);
+        const {name,email,password,address,phone}=req.body;
+        console.log('data',req.body);
+        console.log('images file',req.body.file);
         
 
-        // const image = req?.file?.path; //images path
-        // if(!image){
-        //     throw createError(409,"images file is require")
-        // }
-        // if(image > 1024 * 1024 * 2){
-        //     throw createError(409,"file to large. It must be less than  2MB")
-        // }
+        const image = req.file?.path; //images path
+        if(!image){
+            throw createError(409,"images file is require")
+        }
+        if(image > 1024 * 1024 * 2){
+            throw createError(409,"file to large. It must be less than  2MB")
+        }
         // email exisits chack
         const userExists = await User.exists({email:email})
         if(userExists){
             throw createError(409,"user with this email already exists.please login")
         }
         // create jsonwebtoken 
-       const token = createJsonWebToken({name,email,password,address,phone,image:image},jwtActivationKey,"10m")
+       const token = createJsonWebToken({name,email,password,address,phone,image},jwtActivationKey,"10m")
 
         // prepare email
         const emailData = {

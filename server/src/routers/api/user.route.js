@@ -6,7 +6,7 @@ const {isLoggedIn, isLoggedOut, isAdmin} = require("../../middlewares/auth")
 const { uploadUserImage } = require("../../middlewares/uplodFile")
 
 // user register route: localhost:400/api/v1/users/register
-route.post("/register",isLoggedOut,uploadUserImage.single("image"),userRegistationValidate,runValidation , handleRegister)
+route.post("/register",isLoggedOut,uploadUserImage.single("image"), handleRegister)
 
 // user verify route: localhost:400/api/v1/users/verify
 route.post("/verify",isLoggedOut,handleUserVerify)
