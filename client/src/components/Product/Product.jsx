@@ -1,10 +1,10 @@
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from 'keep-react'
+import { Card, CardContent, CardHeader, CardTitle } from 'keep-react'
 import image from '../../assets/product/product.jpg'
 import Image from '../image/Image'
 import Paragraph from '../Paragraph'
 import { useNavigate } from 'react-router-dom'
 
-const Product = () => {
+const Product = ({offer}) => {
   let navigate = useNavigate()
 
   const handleClick =()=>{
@@ -13,7 +13,8 @@ const Product = () => {
 
 
   return (
-    <Card onClick={handleClick} className='group ring-1 ring-secoundary cursor-pointer'>
+    <Card onClick={handleClick} className='group ring-1 ring-secoundary cursor-pointer relative'>
+      {offer && <div className='w-10 h-7 text-center text-base bg-primary rounded-md absolute top-5 right-5 z-30'>{offer}</div> }
       <CardHeader className='overflow-hidden'>
         <Image className='group-hover:scale-105 duration-100' src={image} alt="image" />
       </CardHeader>

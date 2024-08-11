@@ -5,6 +5,7 @@ import Banner from '../components/banner/Banner'
 import Category from '../components/category/Category'
 import NewProduct from '../components/new-product/NewProduct'
 import Popular from '../components/popular-product/Popular'
+import SpecialProduct from '../components/special-product/SpecialProduct'
 
 const Home = () => {
 
@@ -18,6 +19,7 @@ const Home = () => {
         <Category/>
         <Popular/>
         <NewProduct/>
+        <SpecialProduct/>
         <AllProduct/>
     </div>
   )

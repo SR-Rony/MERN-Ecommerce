@@ -18,19 +18,21 @@ const Menubar = () => {
                     <Sightbar/>
                 </div>
                 <div className="hidden  lg:col-span-8 lg:flex text-base md:text-xl justify-center items-center gap-4 lg:gap-5">
-                {menu.map((item,index)=>(
+                {/* {menu.map((item,index)=>(
                 <List key={index}>
-                    <Link className='hover:text-primary duration-100' key={index}>
+                    <Link to={item ==} className='hover:text-primary duration-100' key={index}>
                     <ListItem text={item}/>
                     </Link>
                 </List>
-                ))}
+                ))} */}
                 </div>
                 <div className="hidden sm:col-span-6 lg:col-span-2 sm:flex justify-end">
-                <div className='flex gap-1 items-center text-primary cursor-pointer ring-2 ring-primary py-1 px-2 rounded-md'>
-                    <CiDiscount1 className='text-2xl'/>
-                    <Paragraph className='text-xl' text="Special Offer!"/>
-                </div>
+                <a href='#offer'>
+                    <div className='flex gap-1 items-center text-primary ring-2 ring-primary py-1 px-2 rounded-md'>
+                        <CiDiscount1 className='text-2xl'/>
+                        <Paragraph className='text-xl' text="Special Offer!"/>
+                    </div>
+                </a>
                 </div>
             </div>
         </div>
