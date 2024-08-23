@@ -33,7 +33,6 @@ const userStorage = multer.diskStorage({
   const fileFileter =(req,file,cb)=>{
     const extname =  path.extname(file.originalname);
     if(!fileTypes.includes(file.mimetype)){
-    // let error = createError(400,"file type is not allowed")
       return cb(new Error("file typr is not allowed"),false)
     }
     cb(null,true)

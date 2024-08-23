@@ -17,8 +17,8 @@ const Home = () => {
       <PageTitle title="Home"/>
         <Banner/>
         <Category/>
-        <Popular/>
         <NewProduct/>
+        <Popular/>
         <SpecialProduct/>
         <AllProduct/>
     </div>

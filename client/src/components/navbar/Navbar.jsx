@@ -1,20 +1,41 @@
 import Heading from '../Heading'
 import { FiSearch,FiShoppingCart  } from "react-icons/fi";
-import {Link} from 'react-router-dom'
-import { FaRegCircleUser  } from "react-icons/fa6";
+import {Link, useNavigate} from 'react-router-dom'
+import {FaAngleDown,FaRegCircleUser  } from "react-icons/fa6";
 import {FaRegHeart } from "react-icons/fa";
 import Menubar from './Menubar';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Image from '../image/Image';
+import Paragraph from '../Paragraph';
+import { useEffect, useRef, useState } from 'react';
+import { Button } from 'keep-react';
+import { activeUser } from '../../features/user/userSlice';
 
 const Navbar = () => {
-  
-
+  let [dropDown,setDropdown]= useState(false)
+  const ref =useRef()
   let userInfo = useSelector(state => state.user.value)
+  let navigate = useNavigate()
+  let dispatch = useDispatch()
 
-  // const handleProfile =()=>{
-  //   setProfile(tr)
-  // }
+  useEffect(()=>{
+    document.body.addEventListener("click",(e)=>{
+      if(ref.current.contains(e.target)){
+        setDropdown(true)
+      }else{
+        setDropdown(false)
+      }
+    })
+  },[])
+
+  const handleLogout =()=>{
+    console.log('logout');
+    
+    dispatch(activeUser(null));
+        // localStorage.removeItem('user')
+        navigate('/login')
+  }
+
 
   return (
     <nav className='pt-3 pb-2 bg-black text-white fixed z-50 w-full top-0 left-0 shadow-xl'>
@@ -30,15 +51,33 @@ const Navbar = () => {
               </div>
             </div>
             <div className="order-2 sm:order-3 col-span-6 sm:col-span-3 flex gap-3 md:gap-5 text-3xl justify-end  items-center">
-              <Link className=''><FaRegHeart/></Link>
-              <Link className=''><FiShoppingCart/></Link>
-                {userInfo 
-                ?<Link to='/dashboard'>
-                  <div className='w-8 h-8 ring ring-white rounded-full overflow-hidden cursor-pointer'>
-                    <Image src={userInfo.image} alt='profile'/>
+              <div className='relative'>
+                <span className='w-6 h-6 rounded-full bg-primary text-white flex justify-center items-center absolute -top-4 right-0 text-base'>10</span>
+                <Link className=''><FaRegHeart/></Link>
+              </div>
+              <div className='relative'>
+                <span className='w-6 h-6 rounded-full bg-primary text-white flex justify-center items-center absolute -top-4 right-0 text-base'>10</span>
+                <Link className=''><FiShoppingCart/></Link>
+              </div>
+              {userInfo 
+                ?<div ref={ref} className='flex items-center gap-2 relative cursor-pointer'>
+                <div className='w-8 h-8 ring-2 ring-primary rounded-full overflow-hidden'>
+                  <Image src={userInfo.image}/>
+                </div>
+                {userInfo && <Paragraph className='text-base' text={userInfo.name}/>}
+                <FaAngleDown className="text-base"/>
+                {dropDown &&
+                  <div className="absolute top-12 rounded-md right-0 p-2 w-40 bg-white text-black">
+                    <div className="w-5 h-5 absolute bg-white -top-2 right-4 rotate-45"></div>
+                    <Link to='/profile'><Paragraph className='border-b-2 pb-2 my-2 border-primary' text='Your Profile'/></Link>
+                    <Link to='dashboard'><Paragraph className='border-b-2 pb-2 border-primary' text='Dashboard'/></Link>
+                    <Button onClick={handleLogout} className='bg-secoundary py-2 px-4 mt-4'> Logout</Button>
+                    
                   </div>
-                </Link>
-                :<Link className='' to='/login'><FaRegCircleUser /></Link>
+                }
+              </div>
+                // :<Button onClick={()=>navigate('/login')} className='bg-secoundary'> Login</Button>
+                :<Button className='py-2 ring-1 ring-primary hover:bg-primary duration-100' onClick={()=>navigate('/login')}>Login</Button>
                 }
                 {/* <Link className='' to='/login'><FaRegCircleUser /></Link> */}
             </div>

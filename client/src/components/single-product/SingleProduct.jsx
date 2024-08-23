@@ -4,9 +4,12 @@ import Heading from '../Heading'
 import Paragraph from '../Paragraph'
 import {FiShoppingCart  } from "react-icons/fi";
 import Product from '../Product/Product';
+import { useState } from 'react';
 
 
 const SingleProduct = () => {
+    const [count,setCount] = useState(0)
+
   return (
     <div className='mt-10 py-10'>
         <div className="grid grid-cols-12 gap-5">
@@ -31,10 +34,13 @@ const SingleProduct = () => {
                 <Heading className='text-5xl my-5 text-primary border-b-2 border-primary pb-4' tag='h2' text='$100'/>
                 <Paragraph className='mt-5' text='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat. '/>
                 <div className='mt-10 flex gap-5'>
-                    <div className='flex gap-4 items-center ring-1 ring-secoundary'>
-                        <button className='ring-1 py-1 px-4 text-2xl font-bold ring-secoundary'>-</button>
-                        <span className='text-2xl'>0</span>
-                        <button className='ring-1 py-1 px-4 text-2xl font-bold ring-secoundary'>+</button>
+                    <div className='flex gap-4 items-center ring-1 rounded-full ring-secoundary overflow-hidden'>
+                        {count==0
+                        ?<button className=' bg-secoundary ring-1 py-1 px-4 text-2xl font-bold ring-secoundary text-white'>-</button>
+                        :<button onClick={(()=>setCount(count-1))} className=' ring-1 py-1 px-4 text-2xl font-bold ring-secoundary'>-</button>
+                        }
+                        <span className='text-2xl'>{count}</span>
+                        <button onClick={(()=>setCount(count+1))} className='ring-1 py-1 px-4 text-2xl font-bold ring-secoundary'>+</button>
                     </div>
                     <button className='p-2 bg-primary font-bold rounded-sm flex items-center gap-2 '><FiShoppingCart/> ADD TO CART</button>
                 </div>
