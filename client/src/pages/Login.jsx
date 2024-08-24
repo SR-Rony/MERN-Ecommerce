@@ -16,17 +16,29 @@ import { activeUser } from '../features/user/userSlice';
 const Login = () => {
   const [lodding,setLoding]= useState(false)
 
-  let userinfo = useSelector(state =>(state.user.value))
-  console.log(userinfo);
+  // let userinfo = useSelector(state =>(state.user.value))
+
   let dispatch = useDispatch()
   const navigate = useNavigate()
 
+
+  const validate = values => {
+    const errors = {};
+  
+    if (!values.email) {
+      errors.email = 'Required';
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+      errors.email = 'Invalid email address';
+    }
+    return errors;
+  };
 
   const formik = useFormik({
     initialValues: {
       email: '',
       password: ''
     },
+    validate,
     onSubmit: async(values) => {
     try{
       setLoding(true)
