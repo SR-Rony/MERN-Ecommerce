@@ -3,7 +3,7 @@ import PageTitle from '../components/PageTitle'
 import Paragraph from '../components/Paragraph'
 import axios from 'axios'
 import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Spinner } from "keep-react";
 import { useState } from 'react';
 import {toast } from 'react-toastify';
@@ -98,7 +98,7 @@ const Login = () => {
     <div className='mt-24'>
       <PageTitle title = 'Login'/>
       <div className='w-full h-[80vh] flex justify-center items-center'>
-        <div className=' mx-auto md:p-5 md:w-1/2 text-center'>
+        <div className=' mx-auto md:p-5 md:w-1/2 text-center bg-white rounded-md shadow-md'>
           <Heading tag='h1' text='Login'/>
           <form  onSubmit={formik.handleSubmit} className='my-2 md:my-5 px-2 md:px-0'>
             <div className='my-5'>
@@ -109,6 +109,7 @@ const Login = () => {
               <input className='py-2 px-4 ring-1 rounded-full ring-secoundary w-full md:w-1/2' id='password' type="password" name='password'  onChange={formik.handleChange}
          value={formik.values.password} required placeholder='Inter your Password' />
             </div>
+            <Link to='/forget-password'><Paragraph className='mb-2 text-secoundary cursor-pointer' text='Forget Password'/></Link>
             {lodding
             ?
             <button type='submit' className=' mt-2 w-full md:w-1/2 py-2 rounded-full font-semibold text-xl bg-secoundary text-white'>

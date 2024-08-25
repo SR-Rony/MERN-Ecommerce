@@ -125,6 +125,7 @@ const forgetPasswordService =async (email)=>{
            `
         }
            // send email with nodemailer
+           
           await emailNodmailer(emailData)
           return token
     }catch(error){

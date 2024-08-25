@@ -27,7 +27,7 @@ route.put("/update/:id([0-9a-fA-F]{24})",uploadUserImage.single("image"),isLogge
 route.put("/update-password/:id([0-9a-fA-F]{24})",isLoggedIn,updatePasswordValidate,handleUpdatePassword)
 
 // user forget password set: localhost:400/api/v1/users/forget-password
-route.post("/forget-password",isLoggedIn,userForgatePassword,runValidation, handleForgatePassword)
+route.post("/forget-password",isLoggedOut,userForgatePassword,runValidation, handleForgatePassword)
 
 // user reset password :localhost:400/api/v1/users/reset-password
 route.put("/reset-password",isLoggedIn,userResetPassword,runValidation, handleResetPassword)

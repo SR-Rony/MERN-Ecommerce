@@ -16,6 +16,7 @@ import Product from './pages/Product';
 import Dashboard from './pages/Dashboard';
 import DashboardRoot from './components/dashboard/DashboardRoot';
 import Verify from './pages/Verify';
+import ForgetPassword from './pages/ForgetPassword';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
       <Route>
         <Route path="/" element={<Root />}>
           <Route path='/' element={<Home/>}/>
+          <Route path='/forget-password' element={<ForgetPassword/>}/>
           <Route path='/contact' element={<Contact/>}/>
           <Route path='/product' element={<Product/>}/>
           <Route path='/login' element={<Login/>}/>
