@@ -30,7 +30,7 @@ route.put("/update-password/:id([0-9a-fA-F]{24})",isLoggedIn,updatePasswordValid
 route.post("/forget-password",isLoggedOut,userForgatePassword,runValidation, handleForgatePassword)
 
 // user reset password :localhost:400/api/v1/users/reset-password
-route.put("/reset-password",isLoggedIn,userResetPassword,runValidation, handleResetPassword)
+route.put("/reset-password",isLoggedOut,userResetPassword,runValidation, handleResetPassword)
 
 // handle manage user: localhost:400/api/v1/users/manage-user
 route.put("/manage-user/:id([0-9a-fA-F]{24})",isLoggedIn,isAdmin,handleManageUser)

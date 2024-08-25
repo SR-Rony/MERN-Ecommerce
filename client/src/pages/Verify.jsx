@@ -5,22 +5,26 @@ import axios from 'axios'
 import PageTitle from '../components/PageTitle'
 
 const Verify = () => {
-  let [error,setError]= useState('')
+  let [error,setError]= useState(null)
  let params = useParams()
   useEffect(()=>{
-    async function data(){
-      try {
+        async function data(){
         let token = params.token
+        console.log(token);
         await axios.post('http://localhost:4000/api/v1/users/verify',{
           token:token
         })
-      } catch (error) {
-        let message = error.response.data.message
-        setError(message)
-      }
+        .then((res)=>{
+          console.log('useer respons',res.data.message);
+          
+        }).catch((error)=>{
+          let message = error.response.data.message
+            setError(message)
+          
+        })
     }
     data()
-  })
+  },[])
   return (
     <>
       <PageTitle title = 'Verification'/>

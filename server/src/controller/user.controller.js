@@ -17,8 +17,7 @@ const {cloudinaryHelper, deleteCloudinaryImage} = require("../helper/cloudinaryH
 const handleRegister = async (req,res,next)=>{
     try{
         const {name,email,password,address,phone}=req.body;
-        console.log('data',req.body);
-        console.log('images file',req.body.file);
+        console.log('images file',req.file.path);
         
 
         const image = req.file?.path; //images path
@@ -42,7 +41,7 @@ const handleRegister = async (req,res,next)=>{
             subject:"action activation email",
             html:`
                 <h1>Hello ${name}</h1>
-                <p>please click hear to <a href="${clientUrl}/verify/:${token}" target="_blank">activet your email</a></p>
+                <p>please click hear to <a href="${clientUrl}/verify/${token}" target="_blank">activet your email</a></p>
             `
         }
         try{
@@ -73,6 +72,7 @@ const handleUserVerify = async (req,res,next)=>{
         const token = req.body.token;
         console.log(token);
         
+        
         // token error throw
         if(!token){
             throw createError(404,"token is not found")
@@ -97,8 +97,6 @@ const handleUserVerify = async (req,res,next)=>{
                 })
                 decoded.image = respons.secure_url
             }
-
-
             // new user is create
             await User.create(decoded)
             
@@ -282,6 +280,7 @@ const handleForgatePassword =async(req,res,next)=>{
 const handleResetPassword =async(req,res,next)=>{
     try {
         const {token,newpassword} = req.body
+        
         const userData = await resetPasswordService(token,newpassword)
         //======= user delete and success respons fun () =======//
         return successRespons(res,{

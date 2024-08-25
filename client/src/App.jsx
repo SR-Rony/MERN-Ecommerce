@@ -17,20 +17,22 @@ import Dashboard from './pages/Dashboard';
 import DashboardRoot from './components/dashboard/DashboardRoot';
 import Verify from './pages/Verify';
 import ForgetPassword from './pages/ForgetPassword';
+import ResetPassword from './pages/ResetPassword';
 
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
+        <Route path='/verify/:token' element={<Verify/>}/>
         <Route path="/" element={<Root />}>
           <Route path='/' element={<Home/>}/>
           <Route path='/forget-password' element={<ForgetPassword/>}/>
+          <Route path='/reset-password/:token' element={<ResetPassword/>}/>
           <Route path='/contact' element={<Contact/>}/>
           <Route path='/product' element={<Product/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/singup' element={<Register/>}/>
-          <Route path='/verify/:token' element={<Verify/>}/>
           <Route path='*' element={<Error/>}/>
         </Route>
         <Route path='/' element={<DashboardRoot/>}>
