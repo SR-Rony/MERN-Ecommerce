@@ -14,6 +14,7 @@ const transporter = nodemailer.createTransport({
 
   const emailNodmailer =async(emailData)=>{
     try{
+      
         const mailOptions ={
             from: smtpUserName, // sender address
             to: emailData.email, // list of receivers

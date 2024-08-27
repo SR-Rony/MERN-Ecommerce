@@ -47,6 +47,8 @@ const Login = () => {
             password:values.password
           })
           .then((res)=>{
+            console.log(res);
+            
             let message = res.data.message
             let data = res.data.paylod
             dispatch(activeUser(data));
@@ -64,6 +66,20 @@ const Login = () => {
               });
             navigate('/')
           }).catch((error)=>{
+            console.log(error.response.data);
+            // if(error.response.data.includes('sorry please try again')){
+            //   toast.error(error.response.data, {
+            //     position: "top-right",
+            //     autoClose: 5000,
+            //     hideProgressBar: false,
+            //     closeOnClick: true,
+            //     pauseOnHover: true,
+            //     draggable: true,
+            //     progress: undefined,
+            //     theme: "dark",
+            //     });
+            // }
+            
             setLoding(false)
             let errorMessage =error.response.data.message
             toast.error(errorMessage, {

@@ -76,10 +76,8 @@ const Navbar = () => {
                   </div>
                 }
               </div>
-                // :<Button onClick={()=>navigate('/login')} className='bg-secoundary'> Login</Button>
                 :<Button className='py-2 ring-1 ring-primary hover:bg-primary duration-100' onClick={()=>navigate('/login')}>Login</Button>
                 }
-                {/* <Link className='' to='/login'><FaRegCircleUser /></Link> */}
             </div>
           </div>
         </div>

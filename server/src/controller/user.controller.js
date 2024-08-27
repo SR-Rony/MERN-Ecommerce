@@ -46,7 +46,8 @@ const handleRegister = async (req,res,next)=>{
         }
         try{
             // send email with nodemailer
-           await emailNodmailer(emailData)
+          await emailNodmailer(emailData)
+          
         }catch(emailError){
             next(createError(500,"fail to verification email "))
             return
