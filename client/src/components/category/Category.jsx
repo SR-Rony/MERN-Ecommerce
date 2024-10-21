@@ -64,9 +64,11 @@ const Category = () => {
             <div className="slider-container flex-row justify-center">
         <Slider {...settings}>
           {array.map((item,index)=>(
-              <div className=" text-center cursor-pointer ring-1 ring-secoundary" key={index}>
-              <Image className='w-24 mx-auto' src={item}/>
-              <Paragraph text='Mans Clothing'/>
+          <div className=" py-4 flex text-center" key={index}>
+              <div className=" cursor-pointer mx-auto w-28 h-28 ring ring-secoundary hover:ring-primary rounded-full p-4">
+                <Image className='w-12 mx-auto' src={item}/>
+                <Paragraph text='Mans'/>
+              </div>
           </div>
           ))}
         </Slider>
