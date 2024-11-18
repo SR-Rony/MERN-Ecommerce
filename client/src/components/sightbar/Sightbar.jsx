@@ -32,7 +32,7 @@ const Sightbar = () => {
       <Drawer isOpen={isOpen} onOpenChange={setIsOpen} position={position}>
         <DrawerBody>
           <DrawerContent>
-            <div className="mx-10 py-20 lg:px-0 text-white relative">
+            <div className="px-10 py-20 lg:px-0 relative text-white bg-black w-full">
               <Heading tag='h2' text='Hello SR' className='border-b-2 border-primary pb-4'/>
               <List className='py-5'>
                 {list.map((item,index)=>(
@@ -50,20 +50,6 @@ const Sightbar = () => {
         </DrawerBody>
       </Drawer>
     </>
-
-
-
-
-
-
-
-    // <div className='mt-20 py-5 w-full px-2'>
-    //   {list.map((item,index)=>(
-    //     <List key={index}>
-    //         <ListItem className='border-b-2 border-secoundary p-2 rounded-md my-4 hover:bg-secoundary hover:text-white duration-100 ' text={item}/>
-    //     </List>
-    //   ))}
-    // </div>
   )
 }
 
